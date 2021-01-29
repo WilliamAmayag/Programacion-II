@@ -17,16 +17,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void calcular(View view){
-double num1 =0;
+double num1 = 0;
 double num2 = 0;
+double respuesta = 0;
 
         TextView temnun = (TextView)findViewById(R.id.txtnum1);
         String valor1 = temnun.getText().toString();
-if (valor1.matches("")) {
-     num1 = 0;
-} else {
-    num1 = Double.parseDouble(temnun.getText().toString());
-}
+        if (valor1.matches("")) {
+            num1 = 0;
+        }   else {
+            num1 = Double.parseDouble(temnun.getText().toString());
+        }
 
         temnun = (TextView)findViewById(R.id.txtnum2);
         String valor2 = temnun.getText().toString();
@@ -36,7 +37,7 @@ if (valor1.matches("")) {
              num2 = Double.parseDouble(temnun.getText().toString());
         }
 
-        double respuesta = 0;
+
 
 
         Spinner operaciones = findViewById(R.id.coboperaciones);
@@ -54,6 +55,7 @@ if (valor1.matches("")) {
                 respuesta = num1 / num2;
                break;
             case 4: //factorial
+
                 respuesta = 1;
                 for(int i=1; i<=num1; i++){
                     respuesta = i * respuesta;}
@@ -75,13 +77,8 @@ if (valor1.matches("")) {
                     respuesta = num1;
                 } else {respuesta= num2;}
                 break;
-
         }
-
-
         temnun = findViewById(R.id.resultado);
         temnun.setText("Respuesta " + respuesta);
-
-
     }
 }

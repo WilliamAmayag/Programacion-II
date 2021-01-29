@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">MyPrimerProyecto</string>
+    <string name="app_name">Calculadora básica</string>
     <string-array name="operaciones">
         <item>Suma</item>
         <item>Resta</item>
-        <item>Multiplicacion</item>
-        <item>Divicion</item>
+        <item>Multiplicación</item>
+        <item>División</item>
         <item>Factorial</item>
         <item>Porcentaje</item>
-        <item>Exponenciacion</item>
-        <item>Raiz</item>
+        <item>Exponenciación</item>
+        <item>Raíz</item>
         <item>Modulo</item>
         <item>Mayor de</item>
     </string-array>

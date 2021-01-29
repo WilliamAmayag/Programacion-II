@@ -42,7 +42,8 @@
        android:layout_height="wrap_content"
        android:entries="@array/operaciones"
        android:layout_below="@id/resultado"
-       android:layout_margin="20dp"
+       android:layout_margin="10dp"
+
        />
 
     <TextView
