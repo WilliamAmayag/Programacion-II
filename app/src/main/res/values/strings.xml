@@ -1,15 +1,11 @@
 <resources>
-    <string name="app_name">Calculadora básica</string>
-    <string-array name="operaciones">
-        <item>Suma</item>
-        <item>Resta</item>
-        <item>Multiplicación</item>
-        <item>División</item>
-        <item>Factorial</item>
-        <item>Porcentaje</item>
-        <item>Exponenciación</item>
-        <item>Raíz</item>
-        <item>Modulo</item>
-        <item>Mayor de</item>
+    <string name="app_name">Conversor</string>
+    <string-array name="datos">
+        <item>Dolar</item>
+        <item>Colon SV</item>
+        <item>Quetzal</item>
+        <item>Lempira</item>
+        <item>Cordoba</item>
+        <item>Colon (Costa Rica)</item>
     </string-array>
 </resources>

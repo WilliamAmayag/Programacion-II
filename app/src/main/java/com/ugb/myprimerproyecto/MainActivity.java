@@ -2,83 +2,59 @@ package com.ugb.myprimerproyecto;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
+    TabHost tbh;
+    Button btn;
+    TextView temp;
+    Spinner spnde, spna;
+    conversores miconvertor = new conversores();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tbh = findViewById(R.id.tbh);
+        tbh.setup();
+
+        tbh.addTab(tbh.newTabSpec("Moneda").setContent(R.id.tabmonedas).setIndicator("M"));
+        tbh.addTab(tbh.newTabSpec("Longitud").setContent(R.id.tablongitud).setIndicator("L"));
+        tbh.addTab(tbh.newTabSpec("Masa").setContent(R.id.tabmasa).setIndicator("P"));
+
+        btn = findViewById(R.id.btncalcular);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                temp = (TextView)findViewById(R.id.txtcantidad);
+                double cantidad = Double.parseDouble(temp.getText().toString());
+
+                spnde = findViewById(R.id.cbode);
+                spna = findViewById(R.id.cboa);
+
+                temp = findViewById(R.id.lblRespuesta);
+                temp.setText( "Respuesta: "+ miconvertor.calcular(0, spnde.getSelectedItemPosition(),spna.getSelectedItemPosition(), cantidad) );
+            }
+        });
+
     }
+}
 
-    public void calcular(View view){
-double num1 = 0;
-double num2 = 0;
-double respuesta = 0;
-
-        TextView temnun = (TextView)findViewById(R.id.txtnum1);
-        String valor1 = temnun.getText().toString();
-        if (valor1.matches("")) {
-            num1 = 0;
-        }   else {
-            num1 = Double.parseDouble(temnun.getText().toString());
-        }
-
-        temnun = (TextView)findViewById(R.id.txtnum2);
-        String valor2 = temnun.getText().toString();
-        if (valor2.matches("")){
-             num2 = 0;
-        } else {
-             num2 = Double.parseDouble(temnun.getText().toString());
-        }
-
-
-
-
-        Spinner operaciones = findViewById(R.id.coboperaciones);
-        switch (operaciones.getSelectedItemPosition()){
-           case 0: //suma
-                respuesta = num1 + num2;
-                    break;
-           case 1: //resta
-                respuesta = num1 - num2;
-                    break;
-           case 2: //multiplicacion
-                respuesta = num1 * num2;
-                    break;
-           case 3: //divicion
-                respuesta = num1 / num2;
-               break;
-            case 4: //factorial
-
-                respuesta = 1;
-                for(int i=1; i<=num1; i++){
-                    respuesta = i * respuesta;}
-                break;
-            case 5: //porcentaje
-                respuesta = (num2/100)*num1;
-                break;
-            case 6: //exponenciacion
-                respuesta = Math.pow(num1,num2);
-                break;
-            case 7: //raiz
-                respuesta = Math.pow(num1, 1/num2); //la raiz x de un numero x es igual a ese numero elevado a 1/numeroderaiz
-                break;
-            case 8://modulo
-                respuesta = num1 % num2; // & es el resto en java
-                break;
-            case 9://mayor de
-                if (num1 >= num2){
-                    respuesta = num1;
-                } else {respuesta= num2;}
-                break;
-        }
-        temnun = findViewById(R.id.resultado);
-        temnun.setText("Respuesta " + respuesta);
+class conversores{
+    double[][] conversor = {
+            {1.0,8.75,7.77, 24.03,34.8,611.10},/*Monedas*/
+            {1.0},/*Longitud*/
+            {1.0}/*Masa*/
+    };
+    public double calcular(int opcion, int de, int a, double cantidad){
+        return conversor[opcion][a] / conversor[opcion][de] * cantidad;
     }
 }
