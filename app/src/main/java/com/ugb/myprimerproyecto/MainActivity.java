@@ -195,7 +195,7 @@ class conversores{
             {1.00,1000000.00, 1000.00, 0.0166667, 0.000277778,  0.0000115741, 0.00000165344, 0.000000031688088},//Tiempo
             {1.00, 33.8, 274.15},//Temperatura
             {1,1,   1,   1, 1,  1, 1, 1, 1, 1},//Volumen
-            {1,1,   1,   1, 1,  1, 1, 1, 1, 1},//Áre
+            {1,1,   1,   1, 1,  1, 1, 1, 1, 1},//Área
     };
     public double convertir(int opcion, int de, int a, double cantidad){
         return conversor[opcion][a] / conversor[opcion][de] * cantidad;
