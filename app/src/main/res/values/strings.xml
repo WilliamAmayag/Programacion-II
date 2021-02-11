@@ -1,11 +1,78 @@
 <resources>
     <string name="app_name">Conversor</string>
-    <string-array name="datos">
+    <string-array name="conversorMonedas">
         <item>Dolar</item>
         <item>Colon SV</item>
         <item>Quetzal</item>
         <item>Lempira</item>
         <item>Cordoba</item>
         <item>Colon (Costa Rica)</item>
+        <item>Euro</item>
+        <item>Peso Mexicano</item>
+        <item>Libra Esterlina</item>
+        <item>Dolar Canadiense</item>
     </string-array>
+
+    <string-array name="conversorLongitud">
+        <item>Metros</item>
+        <item>Nanometros</item>
+        <item>Micrones</item>
+        <item>Milimetros</item>
+        <item>Centimetros</item>
+        <item>Kilometros</item>
+        <item>Pulgadas</item>
+        <item>Pies</item>
+        <item>Yardas</item>
+        <item>Millas</item>
+    </string-array>
+
+    <string-array name="conversorPeso">
+        <item>Libra</item>
+        <item>Miligramos</item>
+        <item>Centigramos</item>
+        <item>Decigramos</item>
+        <item>Gramos</item>
+        <item>Decagramos</item>
+        <item>Hectogramos</item>
+        <item>Kilogramos</item>
+        <item>Onzas</item>
+        <item>Tonelada corta(EE.UU)</item>
+    </string-array>
+
+
+    <string-array name="conversorAlmacenamiento">
+        <item>Bits</item>
+        <item>Bytes</item>
+        <item>Kilobits</item>
+        <item>Kilobytes</item>
+        <item>Megabits</item>
+        <item>Megabytes</item>
+        <item>Gigabits</item>
+        <item>Gigabytes</item>
+        <item>Terabits</item>
+        <item>Terabytes</item>
+    </string-array>
+
+
+
+
+    <string-array name="conversorTiempo">
+        <item>Segundos</item>
+        <item>Microsegundos</item>
+        <item>Milisegundos</item>
+        <item>Minutos</item>
+        <item>Horas</item>
+        <item>Dias</item>
+        <item>Semanas</item>
+        <item>Años</item>
+        <item>Decadas</item>
+        <item>Siglos</item>
+    </string-array>
+
+    <string-array name="conversorTemperatura">
+        <item>Celsius</item>
+        <item>Fahrenheit</item>
+        <item>Kelvin</item>
+    </string-array>
+
 </resources>
