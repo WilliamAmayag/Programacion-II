@@ -18,6 +18,9 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 
 public class MainActivity extends AppCompatActivity {
     TabHost tbhConversores;
@@ -35,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
         tbhConversores = findViewById(R.id.tbhConversores);
         tbhConversores.setup();
 
-        tbhConversores.addTab(tbhConversores.newTabSpec("Monedas").setContent(R.id.tabMonedas).setIndicator("Divisa"));
-        tbhConversores.addTab(tbhConversores.newTabSpec("Longitud").setContent(R.id.tabLongitud).setIndicator("Longitud"));
-        tbhConversores.addTab(tbhConversores.newTabSpec("Masa").setContent(R.id.tabMasa).setIndicator("Masa"));
-        tbhConversores.addTab(tbhConversores.newTabSpec("Almacenamiento").setContent(R.id.tabAlmacenamiento).setIndicator("Almacenamiento"));
-        tbhConversores.addTab(tbhConversores.newTabSpec("Tiempo").setContent(R.id.tabTiempo).setIndicator("Tiempo"));
-        tbhConversores.addTab(tbhConversores.newTabSpec("Temperatura").setContent(R.id.tabTemperatura).setIndicator("Temperatura"));
+        tbhConversores.addTab(tbhConversores.newTabSpec("Monedas").setContent(R.id.tabMonedas).setIndicator("", getResources().getDrawable(R.drawable.ic_moneda)));
+        tbhConversores.addTab(tbhConversores.newTabSpec("Longitud").setContent(R.id.tabLongitud).setIndicator("", getResources().getDrawable(R.drawable.ic_longitud)));
+        tbhConversores.addTab(tbhConversores.newTabSpec("Masa").setContent(R.id.tabMasa).setIndicator("", getResources().getDrawable(R.drawable.ic_masa)));
+        tbhConversores.addTab(tbhConversores.newTabSpec("Almacenamiento").setContent(R.id.tabAlmacenamiento).setIndicator("", getResources().getDrawable(R.drawable.ic_almacenamiento)));
+        tbhConversores.addTab(tbhConversores.newTabSpec("Tiempo").setContent(R.id.tabTiempo).setIndicator("", getResources().getDrawable(R.drawable.ic_tiempo)));
+        tbhConversores.addTab(tbhConversores.newTabSpec("Temperatura").setContent(R.id.tabTemperatura).setIndicator("", getResources().getDrawable(R.drawable.ic_temperatura)));
 
         btnConvertir = findViewById(R.id.btnCalcular);
         btnConvertir.setOnClickListener(new View.OnClickListener() {
@@ -85,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         btnConvertir = findViewById(R.id.btnCalcularM);
         btnConvertir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         btnConvertir = findViewById(R.id.btnCalcularalmacenamiento);
         btnConvertir.setOnClickListener(new View.OnClickListener() {
@@ -130,11 +130,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
         btnConvertir = findViewById(R.id.btnCalcularTiempo);
         btnConvertir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,10 +151,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         btnConvertir = findViewById(R.id.btnCalcularTemperatura);
         btnConvertir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     spnOpcionA = findViewById(R.id.cboATemperatura);
                     tempVal = findViewById(R.id.lblRespuestaTemperatura);
 
-                    tempVal.setText("Respuesta: " + miConversor.convertir(5, spnOpcionDe.getSelectedItemPosition(), spnOpcionA.getSelectedItemPosition(), cantidad));
+                    tempVal.setText("Respuesta: " + miConversor.convertirTemperatura(spnOpcionDe.getSelectedItemPosition(), spnOpcionA.getSelectedItemPosition(), cantidad));
                 }catch (Exception e){
                     tempVal = findViewById(R.id.lblRespuestaTemperatura);
                     tempVal.setText("Por favor ingrese los valores correspondiente");
@@ -180,13 +171,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 }
 
-
 class conversores{
+
+    public static double round(double value) {
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(3, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
     double[][] conversor = {
             {1.0, 8.75, 7.77, 24.03, 34.8, 611.10, 0.83, 20.10, 0.73, 1.28},//Divisa
             {1.00, 1000000000.00, 1000000.00, 1000.00, 100.00, 0.001, 39.37008, 3.28084, 1.093613, 0.000621371},//Longitud
@@ -197,7 +192,43 @@ class conversores{
             {1,1,   1,   1, 1,  1, 1, 1, 1, 1},//Volumen
             {1,1,   1,   1, 1,  1, 1, 1, 1, 1},//Área
     };
+
     public double convertir(int opcion, int de, int a, double cantidad){
-        return conversor[opcion][a] / conversor[opcion][de] * cantidad;
+        return round(conversor[opcion][a] / conversor[opcion][de] * cantidad);
+    }
+    public double convertirTemperatura(int de, int a, double cantidad){
+        double respuesta = 0;
+        //Celsius
+        if (de == 0) {
+            if (a == 0) {
+                respuesta = cantidad;
+            } else if (a == 1) {
+                respuesta = (cantidad * 9 / 5) + 32;
+            } else if (a == 2) {
+                respuesta =cantidad + 273.15;
+            }
+        }
+        //Fahrenheit
+        if (de == 1) {
+            if (a == 0) {
+                respuesta = (cantidad - 32) * 5 / 9;
+            } else if (a == 1) {
+                respuesta = cantidad;
+            } else if (a == 2) {
+                respuesta = (cantidad - 32) * 5 / 9 + 273.15;
+            }
+        }
+        // Kelvin
+        if (de == 2) {
+            if (a == 0) {
+                respuesta = cantidad -273.15;
+            } else if (a == 1) {
+                respuesta = (cantidad - 273.15) * 9 / 5 + 32;
+            } else if (a == 2) {
+                respuesta = cantidad;
+            }
+        }
+
+        return round(respuesta);
     }
 }
