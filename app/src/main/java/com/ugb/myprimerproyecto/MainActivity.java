@@ -1,10 +1,13 @@
 package com.ugb.myprimerproyecto;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -171,6 +174,43 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Toast.makeText(getApplicationContext(),"Index: "+ item, Toast.LENGTH_LONG).show();
+        int idmenu = item.getItemId();
+
+        switch (idmenu){
+            case R.id.mnxmoneda:
+                tbhConversores.setCurrentTab(0);
+                break;
+
+            case R.id.mnxlongitud:
+                tbhConversores.setCurrentTab(1);
+                break;
+
+            case R.id.mnxmasa:
+                tbhConversores.setCurrentTab(2);
+                break;
+
+            case R.id.mnxalmacenamiento:
+                tbhConversores.setCurrentTab(3);
+                break;
+            case R.id.mnxtiempo:
+                tbhConversores.setCurrentTab(4);
+                break;
+            case R.id.mnxtemperatura:
+                tbhConversores.setCurrentTab(5);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mnxconversor,menu);
+        return true;
     }
 }
 

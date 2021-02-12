@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/mnxmoneda" android:title="Monedas" />
+    <item android:id="@+id/mnxlongitud" android:title="Longitud" />
+    <item android:id="@+id/mnxmasa" android:title="Masa" />
+    <item android:id="@+id/mnxalmacenamiento" android:title="Almacenamiento" />
+    <item android:id="@+id/mnxtiempo" android:title="Tiempo" />
+    <item android:id="@+id/mnxtemperatura" android:title="Temperatura" />
+</menu>
