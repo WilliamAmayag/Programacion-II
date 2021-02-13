@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         tbhConversores.addTab(tbhConversores.newTabSpec("Almacenamiento").setContent(R.id.tabAlmacenamiento).setIndicator("", getResources().getDrawable(R.drawable.ic_almacenamiento)));
         tbhConversores.addTab(tbhConversores.newTabSpec("Tiempo").setContent(R.id.tabTiempo).setIndicator("", getResources().getDrawable(R.drawable.ic_tiempo)));
         tbhConversores.addTab(tbhConversores.newTabSpec("Temperatura").setContent(R.id.tabTemperatura).setIndicator("", getResources().getDrawable(R.drawable.ic_temperatura)));
+        tbhConversores.addTab(tbhConversores.newTabSpec("Volumen").setContent(R.id.tabVolumen).setIndicator("", getResources().getDrawable(R.drawable.ic_temperatura)));
 
         btnConvertir = findViewById(R.id.btnCalcular);
         btnConvertir.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +175,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnConvertir = findViewById(R.id.btnCalcularVolumen);
+        btnConvertir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    tempVal = findViewById(R.id.txtVolumen);
+                    double cantidad = Double.parseDouble(tempVal.getText().toString());
+
+                    spnOpcionDe = findViewById(R.id.cboDeLVolumen);
+                    spnOpcionA = findViewById(R.id.cboALVolumen);
+                    tempVal = findViewById(R.id.lblRespuestaVolumen);
+
+                    tempVal.setText("Respuesta: " + miConversor.convertir(6, spnOpcionDe.getSelectedItemPosition(), spnOpcionA.getSelectedItemPosition(), cantidad));
+                }catch (Exception e){
+                    tempVal = findViewById(R.id.lblRespuestaVolumen);
+                    tempVal.setText("Por favor ingrese los valores correspondiente");
+                    Toast.makeText(getApplicationContext(), "Por ingrese los valores correspondiente "+ e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -203,6 +225,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.mnxtemperatura:
                 tbhConversores.setCurrentTab(5);
                 break;
+            case R.id.mnxVolumen:
+                tbhConversores.setCurrentTab(6);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -229,7 +254,7 @@ class conversores{
             {1.00,0.125,   0.001, 0.000125, 0.000001, 0.000000125, 0.000000001, 0.000000000125,0.000000000001,0.000000000000125 },//Almacenamiento
             {1.00,1000000.00, 1000.00, 0.0166667, 0.000277778,  0.0000115741, 0.00000165344, 0.000000031688088},//Tiempo
             {1.00, 33.8, 274.15},//Temperatura
-            {1,1,   1,   1, 1,  1, 1, 1, 1, 1},//Volumen
+            {1, 1, 0.001, 0.000001, 0.033814, 0.004227, 0.002113, 0.000264, 0.061024, 0.000035},//Volumen
             {1,1,   1,   1, 1,  1, 1, 1, 1, 1},//Área
     };
 
