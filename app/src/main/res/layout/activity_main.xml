@@ -411,6 +411,63 @@ tools:context=".MainActivity">
                     android:text="Calcular" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/tabVolumen"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lblDeLVolumen"
+                    android:text="DE:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <Spinner
+                    android:id="@+id/cboDeLVolumen"
+                    android:entries="@array/conversorVolumen"
+                    android:layout_marginLeft="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/lblALVolumen"
+                    android:text="A:"
+                    android:layout_below="@id/lblDeLVolumen"
+                    android:layout_marginTop="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <Spinner
+                    android:id="@+id/cboALVolumen"
+                    android:layout_below="@id/cboDeLVolumen"
+                    android:layout_marginTop="40dp"
+                    android:entries="@array/conversorVolumen"
+                    android:layout_marginLeft="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/txtVolumen"
+                    android:layout_below="@id/lblALVolumen"
+                    android:layout_marginTop="40dp"
+                    android:hint="Cantidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/lblRespuestaVolumen"
+                    android:layout_below="@id/txtVolumen"
+                    android:text="Respuesta: ?"
+                    android:layout_marginTop="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/btnCalcularVolumen"
+                    android:layout_below="@id/lblRespuestaVolumen"
+                    android:layout_marginTop="40dp"
+                    android:text="Convertir"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
 
 
 

@@ -69,6 +69,19 @@
         <item>Siglos</item>
     </string-array>
 
+    <string-array name="conversorVolumen">
+        <item>Mililitro</item>
+        <item>centímetros cubicos</item>
+        <item>Litros</item>
+        <item>Metros Cubicos</item>
+        <item>Onzas liquidas (EE.UU)</item>
+        <item>Tazas (EE.UU)</item>
+        <item>Pintas (EE.UU)</item>
+        <item>Galones</item>
+        <item>Pulgadas Cubicas</item>
+        <item>Pies Cubicos</item>
+    </string-array>
+
     <string-array name="conversorTemperatura">
         <item>Celsius</item>
         <item>Fahrenheit</item>
