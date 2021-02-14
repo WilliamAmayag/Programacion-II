@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         tbhConversores.addTab(tbhConversores.newTabSpec("Almacenamiento").setContent(R.id.tabAlmacenamiento).setIndicator("", getResources().getDrawable(R.drawable.ic_almacenamiento)));
         tbhConversores.addTab(tbhConversores.newTabSpec("Tiempo").setContent(R.id.tabTiempo).setIndicator("", getResources().getDrawable(R.drawable.ic_tiempo)));
         tbhConversores.addTab(tbhConversores.newTabSpec("Temperatura").setContent(R.id.tabTemperatura).setIndicator("", getResources().getDrawable(R.drawable.ic_temperatura)));
-        tbhConversores.addTab(tbhConversores.newTabSpec("Volumen").setContent(R.id.tabVolumen).setIndicator("", getResources().getDrawable(R.drawable.ic_temperatura)));
-        tbhConversores.addTab(tbhConversores.newTabSpec("Area").setContent(R.id.tabArea).setIndicator("", getResources().getDrawable(R.drawable.ic_tiempo)));
+        tbhConversores.addTab(tbhConversores.newTabSpec("Volumen").setContent(R.id.tabVolumen).setIndicator("", getResources().getDrawable(R.drawable.ic_volumen)));
+        tbhConversores.addTab(tbhConversores.newTabSpec("Area").setContent(R.id.tabArea).setIndicator("", getResources().getDrawable(R.drawable.ic_area)));
 
         btnConvertir = findViewById(R.id.btnCalcular);
         btnConvertir.setOnClickListener(new View.OnClickListener() {
