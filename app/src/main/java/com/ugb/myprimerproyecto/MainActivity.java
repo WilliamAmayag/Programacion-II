@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         tbhConversores.addTab(tbhConversores.newTabSpec("Tiempo").setContent(R.id.tabTiempo).setIndicator("", getResources().getDrawable(R.drawable.ic_tiempo)));
         tbhConversores.addTab(tbhConversores.newTabSpec("Temperatura").setContent(R.id.tabTemperatura).setIndicator("", getResources().getDrawable(R.drawable.ic_temperatura)));
         tbhConversores.addTab(tbhConversores.newTabSpec("Volumen").setContent(R.id.tabVolumen).setIndicator("", getResources().getDrawable(R.drawable.ic_temperatura)));
+        tbhConversores.addTab(tbhConversores.newTabSpec("Area").setContent(R.id.tabArea).setIndicator("", getResources().getDrawable(R.drawable.ic_tiempo)));
 
         btnConvertir = findViewById(R.id.btnCalcular);
         btnConvertir.setOnClickListener(new View.OnClickListener() {
@@ -176,6 +177,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+
         btnConvertir = findViewById(R.id.btnCalcularVolumen);
         btnConvertir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +201,33 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
+        btnConvertir = findViewById(R.id.btnCalcularArea);
+        btnConvertir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    tempVal = findViewById(R.id.txtcantidadArea);
+                    double cantidad = Double.parseDouble(tempVal.getText().toString());
+
+                    spnOpcionDe = findViewById(R.id.cboDeArea);
+                    spnOpcionA = findViewById(R.id.cboAArea);
+                    tempVal = findViewById(R.id.lblRespuestaArea);
+
+                    tempVal.setText("Respuesta: " + miConversor.convertir(7, spnOpcionDe.getSelectedItemPosition(), spnOpcionA.getSelectedItemPosition(), cantidad));
+                }catch (Exception e){
+                    tempVal = findViewById(R.id.lblRespuestaArea);
+                    tempVal.setText("Por favor ingrese los valores correspondiente");
+                    Toast.makeText(getApplicationContext(), "Por ingrese los valores correspondiente "+ e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -228,6 +259,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.mnxVolumen:
                 tbhConversores.setCurrentTab(6);
                 break;
+            case R.id.mnxarea:
+                tbhConversores.setCurrentTab(7);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -243,7 +277,7 @@ class conversores{
 
     public static double round(double value) {
         BigDecimal bd = new BigDecimal(Double.toString(value));
-        bd = bd.setScale(3, RoundingMode.HALF_UP);
+        bd = bd.setScale(5, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
 
@@ -252,10 +286,10 @@ class conversores{
             {1.00, 1000000000.00, 1000000.00, 1000.00, 100.00, 0.001, 39.37008, 3.28084, 1.093613, 0.000621371},//Longitud
             {1.00,453592.4,   45359.24,   4535.924, 453.5924,  45.35924, 4.535924, 0.453592, 16.00, 0.0005},//Masa
             {1.00,0.125,   0.001, 0.000125, 0.000001, 0.000000125, 0.000000001, 0.000000000125,0.000000000001,0.000000000000125 },//Almacenamiento
-            {1.00,1000000.00, 1000.00, 0.0166667, 0.000277778,  0.0000115741, 0.00000165344, 0.000000031688088},//Tiempo
-            {1.00, 33.8, 274.15},//Temperatura
-            {1, 1, 0.001, 0.000001, 0.033814, 0.004227, 0.002113, 0.000264, 0.061024, 0.000035},//Volumen
-            {1,1,   1,   1, 1,  1, 1, 1, 1, 1},//Área
+            {1.00,1000000.00, 1000.00, 0.0166667, 0.000277778,  0.0000115741, 0.00000165344, 0.000000031688088,3.171e-9,3.171e-10},//Tiempo
+            {1,1,1,1,1,1,1,1,1,1},//Temperatura
+            {1, 1.00, 0.001, 0.000001, 0.033814, 0.004227, 0.002113, 0.000264, 0.061024, 0.000035},//Volumen
+            {1.00,100.00, 0.0001,  0.00000001, 0.0000000001,  0.155, 0.00107639, 0.000119599, 0.000000024710538, 0.00000000003861}//Área
     };
 
     public double convertir(int opcion, int de, int a, double cantidad){

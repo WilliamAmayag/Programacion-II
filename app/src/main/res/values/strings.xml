@@ -88,4 +88,17 @@
         <item>Kelvin</item>
     </string-array>
 
+    <string-array name="conversorArea">
+        <item>Centimetros Cuadrados</item>
+        <item>Milimetros Cuadrados</item>
+        <item>Metros Cuadrados</item>
+        <item>Hectareas</item>
+        <item>Kilometros Cuadrados</item>
+        <item>Pulgadas Cuadradas</item>
+        <item>Pies Cuadrados</item>
+        <item>Yardas Cuadradras</item>
+        <item>Acres</item>
+        <item>Millas Cuadradas</item>
+    </string-array>
+
 </resources>

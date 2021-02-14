@@ -475,6 +475,71 @@ tools:context=".MainActivity">
 
 
 
+            <RelativeLayout
+                android:id="@+id/tabArea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lblDeArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DE: " />
+
+                <Spinner
+                    android:id="@+id/cboDeArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:entries="@array/conversorArea" />
+
+                <TextView
+                    android:id="@+id/lblAArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cboDeArea"
+                    android:layout_marginTop="20dp"
+                    android:text="A: " />
+
+                <Spinner
+                    android:id="@+id/cboAArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cboDeArea"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="20dp"
+                    android:entries="@array/conversorArea" />
+
+                <EditText
+                    android:id="@+id/txtcantidadArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cboAArea"
+                    android:layout_marginTop="20dp"
+                    android:hint="Cantidad" />
+
+                <TextView
+                    android:id="@+id/lblRespuestaArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtcantidadArea"
+                    android:layout_marginTop="20dp"
+                    android:text="Respuesta: ?" />
+
+                <Button
+                    android:id="@+id/btnCalcularArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lblRespuestaArea"
+                    android:layout_marginTop="20dp"
+                    android:text="Calcular" />
+            </RelativeLayout>
+
+
+
+
+
 
 
         </FrameLayout>
