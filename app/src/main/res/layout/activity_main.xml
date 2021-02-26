@@ -6,63 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-   <TextView
-       android:id="@+id/titulo"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="Operaciones Basicas"
-       android:layout_marginTop="20dp"
-       android:layout_marginLeft="80dp"
-
-       />
-
-    <EditText
-        android:id="@+id/txtnum1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/titulo"
-        android:hint="Ingrese numero uno"
-        android:layout_margin="20dp"
-        />
-
-
-    <EditText
-        android:id="@+id/txtnum2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtnum1"
-        android:hint="Ingrese numero dos"
-        android:layout_margin="20dp"
-        />
-
-   <Spinner
-       android:id="@+id/coboperaciones"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:entries="@array/operaciones"
-       android:layout_below="@id/resultado"
-       android:layout_margin="10dp"
-
-       />
-
     <TextView
-        android:id="@+id/resultado"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtnum2"
-        android:layout_margin="20dp"
-        android:text="Resultado ?"
-/>
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="40dp"
+        android:id="@+id/lblSensor"
+        android:layout_width="wrap_content"
+        android:text="Valor"
+        android:layout_height="wrap_content"/>
 
 
-    <Button
-        android:id="@+id/calcular"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/coboperaciones"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:onClick="calcular"
-        android:text="CALCULAR" />
 </RelativeLayout>
