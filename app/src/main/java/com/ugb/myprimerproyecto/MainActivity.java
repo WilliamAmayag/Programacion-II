@@ -29,27 +29,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void activarsensor() {
 administradorsensor = (SensorManager)getSystemService(SENSOR_SERVICE);
-sensor = administradorsensor.getDefaultSensor(Sensor.TYPE_LIGHT);
+sensor = administradorsensor.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
 if (sensor == null){
-    Toast.makeText(getApplicationContext(), "No dipones de un sensor de luz", Toast.LENGTH_LONG).show();
+    Toast.makeText(getApplicationContext(), "No dipones de un sensor acelerometro", Toast.LENGTH_LONG).show();
     finish();
 }
 
 sensorEventListener = new SensorEventListener() {
     @Override
     public void onSensorChanged(SensorEvent event) {
- tempVal.setText("Valor: Luz "+event.values[0] );
-        if(event.values[0]<=10){
-            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#000000"));
-        } else if( event.values[0]<=20){
-            getWindow().getDecorView().setBackgroundColor(Color.RED);
-        } else if( event.values[0]<=30){
-            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#DADADA"));
-        } else{
-            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#FFFFFF"));
-        }
-
+  tempVal.setText( "Valor: X:"+event.values[0] +"; Y: "+event.values[1] +"; Z: "+event.values[2] );
     }
 
     @Override
