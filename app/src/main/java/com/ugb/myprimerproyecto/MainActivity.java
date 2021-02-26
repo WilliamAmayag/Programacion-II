@@ -29,24 +29,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void activarsensor() {
 administradorsensor = (SensorManager)getSystemService(SENSOR_SERVICE);
-sensor = administradorsensor.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+sensor = administradorsensor.getDefaultSensor(Sensor.TYPE_LIGHT);
 
 if (sensor == null){
-    Toast.makeText(getApplicationContext(), "No dipones de un sensor de proximindad", Toast.LENGTH_LONG).show();
+    Toast.makeText(getApplicationContext(), "No dipones de un sensor de luz", Toast.LENGTH_LONG).show();
     finish();
 }
 
 sensorEventListener = new SensorEventListener() {
     @Override
     public void onSensorChanged(SensorEvent event) {
- tempVal.setText("Valor: "+event.values[0] );
- if ( event.values[0]<4) {
-     getWindow().getDecorView().setBackgroundColor(Color.BLACK);
-    } else if (event.values[0]>=4 && event.values[0]<8){
-     getWindow().getDecorView().setBackgroundColor(Color.RED);
- } else {
-     getWindow().getDecorView().setBackgroundColor(Color.BLUE);
- }
+ tempVal.setText("Valor: Luz "+event.values[0] );
+        if(event.values[0]<=10){
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#000000"));
+        } else if( event.values[0]<=20){
+            getWindow().getDecorView().setBackgroundColor(Color.RED);
+        } else if( event.values[0]<=30){
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#DADADA"));
+        } else{
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
 
     }
 
