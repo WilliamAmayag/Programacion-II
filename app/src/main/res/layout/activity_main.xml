@@ -81,7 +81,7 @@ tools:context=".MainActivity">
                     android:layout_height="wrap_content"/>
                 <Spinner
                     android:id="@+id/cboDeL"
-
+                    android:entries="@array/Area"
                     android:layout_marginLeft="40dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -97,7 +97,7 @@ tools:context=".MainActivity">
                     android:id="@+id/cboAL"
                     android:layout_below="@id/cboDeL"
                     android:layout_marginTop="40dp"
-
+                    android:entries="@array/Area"
                     android:layout_marginLeft="40dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
