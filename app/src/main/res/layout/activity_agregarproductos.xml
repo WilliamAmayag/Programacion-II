@@ -30,17 +30,26 @@
                 android:layout_marginTop="20dp" />
 
                   <EditText
-                android:id="@+id/txtnombreproducto"
+                android:id="@+id/txtcodigo"
                 android:layout_below="@id/imgfotoproducto"
                 android:layout_margin="15dp"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="nombre de producto"/>
+                android:hint="Codigo de producto"/>
+
+            <EditText
+                android:id="@+id/txtdescripcion"
+                android:layout_below="@id/txtcodigo"
+                android:layout_margin="15dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Descripcion de producto"/>
 
             <EditText
                 android:id="@+id/txtmarca"
-                android:layout_below="@id/txtnombreproducto"
+                android:layout_below="@id/txtdescripcion"
                 android:layout_margin="15dp"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -48,9 +57,27 @@
                 android:hint="Marca de producto"/>
 
 
+            <EditText
+                android:id="@+id/txtpresentacion"
+                android:layout_below="@id/txtmarca"
+                android:layout_margin="15dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Presentacion de producto"/>
+
+            <EditText
+                android:id="@+id/txtprecio"
+                android:layout_below="@id/txtpresentacion"
+                android:layout_margin="15dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Precio de producto"/>
+
                  <Button
                 android:id="@+id/btnguardarproducto"
-                android:layout_below="@id/txtnombreproducto"
+                android:layout_below="@id/txtprecio"
                 android:layout_margin="10dp"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"

@@ -11,7 +11,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,29 +29,42 @@ public class agregarproductos extends AppCompatActivity {
     ImageView imgfotodeproducto;
     Intent tomarfotointent;
     String urldefoto;
+    String idproducto, accion = "nuevo";
+    Button btnagregarproducto;
+    DB miconexion;
+    TextView temp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregarproductos);
 
+        //conexion
+        miconexion = new DB(getApplicationContext(),"",null,1);
+
         //relacion entre java y xml
         btnregresar = findViewById(R.id.btnregresar);
         imgfotodeproducto = findViewById(R.id.imgfotoproducto);
+        btnagregarproducto = findViewById(R.id.btnguardarproducto);
 
-
+        //btn atras
         btnregresar.setOnClickListener(v -> {
             regresarmainactivity();
         });
 
+        //btn tomar foto
         imgfotodeproducto.setOnClickListener(v -> {
             tomarfoto();
         });
+
+
+        //btn agregar producto
+        btnagregarproducto.setOnClickListener(v -> {
+           agregarproducto();
+        });
     }
 
-
-
-//metodo para regresar a pantalla anterior
+    //metodo para regresar a pantalla anterior
     private void regresarmainactivity() {
         Intent i = new Intent(getApplicationContext(),MainActivity.class);
         startActivity(i);
@@ -101,6 +116,7 @@ public class agregarproductos extends AppCompatActivity {
         }
     }
 
+
     //metodo para rutas y creacion de nombres
     private File crearfoto() throws IOException {
         //nombre de la foto
@@ -122,8 +138,35 @@ public class agregarproductos extends AppCompatActivity {
         return image;
     }
 
-        //metodo para mostrar mensajes
+    //Metodo para agregar producto
+    private void agregarproducto() {
+        temp = findViewById(R.id.txtcodigo);
+        String codigo = temp.getText().toString();
+
+        temp = findViewById(R.id.txtdescripcion);
+        String descripcion = temp.getText().toString();
+
+        temp = findViewById(R.id.txtmarca);
+        String marca = temp.getText().toString();
+
+         temp = findViewById(R.id.txtpresentacion);
+        String presentacion = temp.getText().toString();
+
+        temp = findViewById(R.id.txtprecio);
+        String presio = temp.getText().toString();
+
+
+        String datos[] = {idproducto,codigo,descripcion,marca,presentacion,presio,urldefoto};
+        miconexion.administracion_de_productos(accion,datos);
+        mensajes("Registro guardado");
+        regresarmainactivity();
+    }
+
+
+
+    //metodo para mostrar mensajes
     private void mensajes(String msg){
         Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
     }
+
 }
