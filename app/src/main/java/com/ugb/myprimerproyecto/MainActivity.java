@@ -5,8 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,7 +25,10 @@ public class MainActivity extends AppCompatActivity {
     ListView listaproductos;
     Cursor datosproductoscursor = null;
     ArrayList<productos> productosArrayList = new ArrayList<productos>();
+    ArrayList<productos> productosArrayListcopy = new ArrayList<productos>();
     productos misproductos;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +46,41 @@ public class MainActivity extends AppCompatActivity {
           //metodo para lanzar activity agregar producto
            agregaproductos();
        });
+        buscarProductos();
+
+    }
+
+    private void buscarProductos() {
+        TextView tempVal = findViewById(R.id.txtbuscarproducto);
+        tempVal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                productosArrayList.clear();
+                if (tempVal.getText().toString().length()<1){
+                    productosArrayList.addAll(productosArrayListcopy);
+                } else{
+                    for (productos PB : productosArrayListcopy){
+                        String nombre = PB.getDescripcion();
+                        if(nombre.toLowerCase().contains(tempVal.getText().toString().trim().toLowerCase())){
+                            productosArrayList.add(PB);
+                        }
+                    }
+                }
+                adaptadorImagenes adaptadorImagenes = new adaptadorImagenes(getApplicationContext(), productosArrayList);
+                listaproductos.setAdapter(adaptadorImagenes);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
 
@@ -69,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     private void mostrarmisproductos() {
         listaproductos = findViewById(R.id.listproductos);
         productosArrayList.clear();
+        productosArrayListcopy.clear();
 
         do{
             misproductos = new productos(
@@ -86,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         listaproductos.setAdapter(adaptadorImagenes);
 
         registerForContextMenu(listaproductos);
+        productosArrayListcopy.addAll(productosArrayList);
     }
 
 
