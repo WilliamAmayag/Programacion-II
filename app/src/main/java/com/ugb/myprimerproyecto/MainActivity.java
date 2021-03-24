@@ -64,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
                 if (tempVal.getText().toString().length()<1){
                     productosArrayList.addAll(productosArrayListcopy);
                 } else{
-                    for (productos NB : productosArrayListcopy){
-                        String nombre = NB.getDescripcion();
+                    for (productos PB : productosArrayListcopy){
+                        String nombre = PB.getDescripcion();
                         if(nombre.toLowerCase().contains(tempVal.getText().toString().trim().toLowerCase())){
-                            productosArrayList.add(NB);
+                            productosArrayList.add(PB);
                         }
                     }
                 }
