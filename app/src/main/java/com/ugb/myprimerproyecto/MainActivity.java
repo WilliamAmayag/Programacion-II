@@ -34,13 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<productos> productosArrayList = new ArrayList<productos>();
     ArrayList<productos> productosArrayListcopy = new ArrayList<productos>();
     productos misproductos;
-
-    ///4545454454
-    //7879844654
-//fdfdfd
-    //fdfdfdfd
-
-
+    
 
 
     @Override
@@ -76,26 +70,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case  R.id.mxnAgregar:
-                agregaproductos("nuevo", new String[]{});
-                break;
-            case R.id.mxnModificar:
-                String[] datos= {
-                        datosproductoscursor.getString(0),
-                        datosproductoscursor.getString(1),
-                        datosproductoscursor.getString(2),
-                        datosproductoscursor.getString(3),
-                        datosproductoscursor.getString(4),
-                        datosproductoscursor.getString(5),
-                        datosproductoscursor.getString(6),
+        try {
+
+            switch (item.getItemId()) {
+                case R.id.mxnAgregar:
+                    agregaproductos("nuevo", new String[]{});
+                    break;
+                case R.id.mxnModificar:
+                    String[] datos = {
+                            datosproductoscursor.getString(0),
+                            datosproductoscursor.getString(1),
+                            datosproductoscursor.getString(2),
+                            datosproductoscursor.getString(3),
+                            datosproductoscursor.getString(4),
+                            datosproductoscursor.getString(5),
+                            datosproductoscursor.getString(6)
+                    };
+                    agregaproductos("modificar", datos);
+                    break;
+                case R.id.mxnEliminar:
 
 
-                };
-                agregaproductos("modificar", datos);
+                    break;
+            }
+        } catch (Exception ex) {
+            mensajes(ex.getMessage());
         }
         return super.onContextItemSelected(item);
-
     }
 
 
@@ -137,17 +138,20 @@ public class MainActivity extends AppCompatActivity {
 
     //metodo de lanzar activity
     private void agregaproductos(String accion, String[] datos) {
-        Bundle parametroProductos = new Bundle();
-        parametroProductos.putString("accion", accion);
+        try {
+            Bundle parametroProductos = new Bundle();
+            parametroProductos.putString("accion", accion);
 
 
-        parametroProductos.putStringArray("datos",datos );
-        //lanzar activity de agregar producto
+            parametroProductos.putStringArray("datos",datos );
+            //lanzar activity de agregar producto
 
-        Intent i = new Intent(getApplicationContext(), agregarproductos.class);
-        i.putExtras(parametroProductos);
-        startActivity(i);
-    }
+            Intent i = new Intent(getApplicationContext(), agregarproductos.class);
+            i.putExtras(parametroProductos);
+            startActivity(i);
+        }catch (Exception ex){
+            mensajes(ex.getMessage());
+    }}
 
 
     //metodo para comprobar si hay datos

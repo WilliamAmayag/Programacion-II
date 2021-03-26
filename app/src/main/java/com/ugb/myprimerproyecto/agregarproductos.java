@@ -63,6 +63,9 @@ public class agregarproductos extends AppCompatActivity {
         btnagregarproducto.setOnClickListener(v -> {
            agregarproducto();
         });
+
+        mostrardatosproducto();
+
     }
 
     //metodo para regresar a pantalla anterior
@@ -167,32 +170,36 @@ public class agregarproductos extends AppCompatActivity {
 
     private void mostrardatosproducto() {
 
-            Bundle recibirparametros = getIntent().getExtras();
-            accion = recibirparametros.getString("accion");
-            if(accion.equals("modificar")){
-                String[] datos = recibirparametros.getStringArray("datos");
+           try {
+               Bundle recibirparametros = getIntent().getExtras();
+               accion = recibirparametros.getString("accion");
+               if(accion.equals("modificar")){
+                   String[] datos = recibirparametros.getStringArray("datos");
 
-                idproducto = datos[0];
+                   idproducto = datos[0];
 
-                temp = findViewById(R.id.txtcodigo);
-                temp.setText(datos[1]);
+                   temp = findViewById(R.id.txtcodigo);
+                   temp.setText(datos[1]);
 
-                temp = findViewById(R.id.txtdescripcion);
-                temp.setText(datos[2]);
+                   temp = findViewById(R.id.txtdescripcion);
+                   temp.setText(datos[2]);
 
-                temp = findViewById(R.id.txtmarca);
-                temp.setText(datos[3]);
+                   temp = findViewById(R.id.txtmarca);
+                   temp.setText(datos[3]);
 
-                temp = findViewById(R.id.txtpresentacion);
-                temp.setText(datos[4]);
+                   temp = findViewById(R.id.txtpresentacion);
+                   temp.setText(datos[4]);
 
-                temp = findViewById(R.id.txtprecio);
-                temp.setText(datos[5]);
+                   temp = findViewById(R.id.txtprecio);
+                   temp.setText(datos[5]);
 
-                urldefoto = datos[6];
-                Bitmap bitmap = BitmapFactory.decodeFile(urldefoto);
-                imgfotodeproducto.setImageBitmap(bitmap);
-            }
+                   urldefoto = datos[6];
+                   Bitmap bitmap = BitmapFactory.decodeFile(urldefoto);
+                   imgfotodeproducto.setImageBitmap(bitmap);
+               }
+           }catch (Exception ex){
+               mensajes(ex.getMessage());
+           }
 
 
     }
