@@ -34,8 +34,11 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<productos> productosArrayList = new ArrayList<productos>();
     ArrayList<productos> productosArrayListcopy = new ArrayList<productos>();
     productos misproductos;
-//gddfdf
-    //vdfdfd//
+
+    ///4545454454
+    //7879844654
+
+
 
 
 
