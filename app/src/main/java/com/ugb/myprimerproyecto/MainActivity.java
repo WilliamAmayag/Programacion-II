@@ -1,13 +1,20 @@
 package com.ugb.myprimerproyecto;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,11 +51,49 @@ public class MainActivity extends AppCompatActivity {
         //evento de tocar el boton agregar producto
        btnadd.setOnClickListener(v-> {
           //metodo para lanzar activity agregar producto
-           agregaproductos();
+           agregaproductos("nuevo", new String[]{});
        });
         buscarProductos();
 
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_productos,menu);
+
+        AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo)menuInfo;
+        datosproductoscursor.moveToPosition(adapterContextMenuInfo.position);
+        menu.setHeaderTitle(datosproductoscursor.getString(1));
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case  R.id.mxnAgregar:
+                agregaproductos("nuevo", new String[]{});
+                break;
+            case R.id.mxnModificar:
+                String[] datos= {
+                        datosproductoscursor.getString(0),
+                        datosproductoscursor.getString(1),
+                        datosproductoscursor.getString(2),
+                        datosproductoscursor.getString(3),
+                        datosproductoscursor.getString(4),
+                        datosproductoscursor.getString(5),
+                        datosproductoscursor.getString(6),
+
+
+                };
+                agregaproductos("modificar", datos);
+        }
+        return super.onContextItemSelected(item);
+
+    }
+
+
+
 
     private void buscarProductos() {
         TextView tempVal = findViewById(R.id.txtbuscarproducto);
@@ -85,9 +130,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     //metodo de lanzar activity
-    private void agregaproductos() {
+    private void agregaproductos(String accion, String[] datos) {
+        Bundle parametroProductos = new Bundle();
+        parametroProductos.putString("accion", accion);
+
+
+        parametroProductos.putStringArray("datos",datos );
         //lanzar activity de agregar producto
+
         Intent i = new Intent(getApplicationContext(), agregarproductos.class);
+        i.putExtras(parametroProductos);
         startActivity(i);
     }
 
@@ -103,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //sino enviar a guardar datos
             mensajes("No hay datos");
-            agregaproductos();
+            agregaproductos("nuevo", new String[]{});
         }
     }
 

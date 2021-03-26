@@ -34,6 +34,7 @@ public class agregarproductos extends AppCompatActivity {
     DB miconexion;
     TextView temp;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,8 +161,41 @@ public class agregarproductos extends AppCompatActivity {
         miconexion.administracion_de_productos(accion,datos);
         mensajes("Registro guardado");
         regresarmainactivity();
+        
+        mostrardatosproducto();
     }
 
+    private void mostrardatosproducto() {
+
+            Bundle recibirparametros = getIntent().getExtras();
+            accion = recibirparametros.getString("accion");
+            if(accion.equals("modificar")){
+                String[] datos = recibirparametros.getStringArray("datos");
+
+                idproducto = datos[0];
+
+                temp = findViewById(R.id.txtcodigo);
+                temp.setText(datos[1]);
+
+                temp = findViewById(R.id.txtdescripcion);
+                temp.setText(datos[2]);
+
+                temp = findViewById(R.id.txtmarca);
+                temp.setText(datos[3]);
+
+                temp = findViewById(R.id.txtpresentacion);
+                temp.setText(datos[4]);
+
+                temp = findViewById(R.id.txtprecio);
+                temp.setText(datos[5]);
+
+                urldefoto = datos[6];
+                Bitmap bitmap = BitmapFactory.decodeFile(urldefoto);
+                imgfotodeproducto.setImageBitmap(bitmap);
+            }
+
+
+    }
 
 
     //metodo para mostrar mensajes
