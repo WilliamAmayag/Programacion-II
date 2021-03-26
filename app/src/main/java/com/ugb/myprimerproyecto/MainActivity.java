@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<productos> productosArrayList = new ArrayList<productos>();
     ArrayList<productos> productosArrayListcopy = new ArrayList<productos>();
     productos misproductos;
-
+//gddfdf
 
 
     @Override
