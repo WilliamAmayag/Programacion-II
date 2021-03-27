@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     agregaproductos("modificar", datos);
                     break;
                 case R.id.mxnEliminar:
-
+                    eliminarProducto();
 
                     break;
             }
@@ -97,6 +97,30 @@ public class MainActivity extends AppCompatActivity {
             mensajes(ex.getMessage());
         }
         return super.onContextItemSelected(item);
+    }
+
+
+
+    private void eliminarProducto(){
+        try {
+            AlertDialog.Builder confirmacion = new AlertDialog.Builder(MainActivity.this);
+            confirmacion.setTitle("Esta seguro de eliminar el registro?");
+            confirmacion.setMessage(datosproductoscursor.getString(2));
+            confirmacion.setPositiveButton("Si", (dialog, which) -> {
+                miconexion = new DB(getApplicationContext(), "", null, 1);
+                datosproductoscursor = miconexion.administracion_de_productos("eliminar", new String[]{datosproductoscursor.getString(0)});
+                comprobardatos();
+                mensajes("Registro eliminado con exito");
+                dialog.dismiss();
+            });
+            confirmacion.setNegativeButton("No", (dialog, which) -> {
+                mensajes("Eliminacion canelada por el usuario");
+                dialog.dismiss();
+            });
+            confirmacion.create().show();
+        } catch (Exception ex){
+            mensajes(ex.getMessage());
+        }
     }
 
 
@@ -118,7 +142,16 @@ public class MainActivity extends AppCompatActivity {
                 } else{
                     for (productos PB : productosArrayListcopy){
                         String nombre = PB.getDescripcion();
-                        if(nombre.toLowerCase().contains(tempVal.getText().toString().trim().toLowerCase())){
+                        String codigo = PB.getCodigo();
+                        String marca = PB.getMarca();
+                        String presentacion = PB.getPresentacion();
+                        String precio = PB.getPrecio();
+                        String buscando = tempVal.getText().toString().trim().toLowerCase();
+                        if(nombre.toLowerCase().contains(buscando) ||
+                                codigo.toLowerCase().contains(buscando) ||
+                                marca.toLowerCase().contains(buscando) ||
+                                presentacion.toLowerCase().contains(buscando) ||
+                                precio.toLowerCase().contains(buscando)){
                             productosArrayList.add(PB);
                         }
                     }
