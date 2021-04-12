@@ -15,6 +15,7 @@ public class DB extends SQLiteOpenHelper {
         super(context, nombre_bd, factory, version);
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(tblproductos);
