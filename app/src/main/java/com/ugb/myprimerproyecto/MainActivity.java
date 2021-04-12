@@ -7,9 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,6 +24,15 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -34,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<productos> productosArrayList = new ArrayList<productos>();
     ArrayList<productos> productosArrayListcopy = new ArrayList<productos>();
     productos misproductos;
+    JSONArray jsonArrayDatosProductos;
+    JSONObject jsonObjectDatosProductos;
+    utilidades u;
     
 
 
@@ -45,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         //relacionamos con xml
         btnadd = findViewById(R.id.btnagregarproducto);
 
-        //cargar datos al abrir aplicacion
+        //comprobar datos online o ofline
             comprobardatos();
 
         //evento de tocar el boton agregar producto
@@ -53,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
           //metodo para lanzar activity agregar producto
            agregaproductos("nuevo", new String[]{});
        });
-        buscarProductos();
+      buscarProductos();
 
     }
 
@@ -100,6 +114,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void comprobardatosoffline(){
+        miconexion = new DB(getApplicationContext(),"",null,1);
+        datosproductoscursor = miconexion.administracion_de_productos("consultar",null);
+
+        if( datosproductoscursor.moveToFirst() ){
+            //si se encuemtran datos cargarlos
+            mostrarDatosProductosOfline();
+        } else {
+            //sino enviar a guardar datos
+            mensajes("No hay datos");
+            agregaproductos("nuevo", new String[]{});
+        }
+    }
+
+    //metodos para mostrar los datos encontrados con imagen a la par
+    private void  mostrarDatosProductosOfline() {
+        listaproductos = findViewById(R.id.listproductos);
+        productosArrayList.clear();
+        productosArrayListcopy.clear();
+
+        do{
+            misproductos = new productos(
+                    datosproductoscursor.getString(0),//idproducto
+                    datosproductoscursor.getString(1),//codigo
+                    datosproductoscursor.getString(2),//descripcion
+                    datosproductoscursor.getString(3),//marca
+                    datosproductoscursor.getString(4),//presentacion
+                    datosproductoscursor.getString(5), //precio
+                    datosproductoscursor.getString(6) //urldefoto
+            );
+            productosArrayList.add(misproductos);
+        }while(datosproductoscursor.moveToNext());
+        adaptadorImagenes adaptadorImagenes = new adaptadorImagenes(getApplicationContext(), productosArrayList);
+        listaproductos.setAdapter(adaptadorImagenes);
+
+        registerForContextMenu(listaproductos);
+        productosArrayListcopy.addAll(productosArrayList);
+    }
 
     private void eliminarProducto(){
         try {
@@ -122,9 +174,6 @@ public class MainActivity extends AppCompatActivity {
             mensajes(ex.getMessage());
         }
     }
-
-
-
 
     private void buscarProductos() {
         TextView tempVal = findViewById(R.id.txtbuscarproducto);
@@ -168,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     //metodo de lanzar activity
     private void agregaproductos(String accion, String[] datos) {
         try {
@@ -186,47 +234,59 @@ public class MainActivity extends AppCompatActivity {
             mensajes(ex.getMessage());
     }}
 
+    private void comprobardatosOnline(){
+        try {
+            ConexionConElServer conexionConElServerServer = new ConexionConElServer();
+            String resp = conexionConElServerServer.execute(u.urlServer, "GET").get();
 
-    //metodo para comprobar si hay datos
-    private void comprobardatos() {
-        miconexion = new DB(getApplicationContext(),"",null,1);
-        datosproductoscursor = miconexion.administracion_de_productos("consultar",null);
-
-        if( datosproductoscursor.moveToFirst() ){
-            //si se encuemtran datos cargarlos
-            mostrarmisproductos();
-        } else {
-            //sino enviar a guardar datos
-            mensajes("No hay datos");
-            agregaproductos("nuevo", new String[]{});
+            jsonObjectDatosProductos=new JSONObject(resp);
+            jsonArrayDatosProductos = jsonObjectDatosProductos.getJSONArray("rows");
+            mostrarDatosProductosOnLine();
+        }catch (Exception ex){
+           mensajes(ex.getMessage());
         }
     }
 
-    //metodos para mostrar los datos encontrados con imagen a la par
-    private void mostrarmisproductos() {
-        listaproductos = findViewById(R.id.listproductos);
-        productosArrayList.clear();
-        productosArrayListcopy.clear();
+    private void mostrarDatosProductosOnLine() {
+        try{
+            if(jsonArrayDatosProductos.length()>0){
+                listaproductos = findViewById(R.id.listproductos);
+                productosArrayList.clear();
+                productosArrayListcopy.clear();
 
-        do{
-            misproductos = new productos(
-                    datosproductoscursor.getString(0),//idproducto
-                    datosproductoscursor.getString(1),//codigo
-                    datosproductoscursor.getString(2),//descripcion
-                    datosproductoscursor.getString(3),//marca
-                    datosproductoscursor.getString(4),//presentacion
-                    datosproductoscursor.getString(5), //precio
-                    datosproductoscursor.getString(6) //urldefoto
-            );
-            productosArrayList.add(misproductos);
-        }while(datosproductoscursor.moveToNext());
-        adaptadorImagenes adaptadorImagenes = new adaptadorImagenes(getApplicationContext(), productosArrayList);
-        listaproductos.setAdapter(adaptadorImagenes);
+                JSONObject jsonObject;
+                for(int i=0; i<jsonArrayDatosProductos.length(); i++){
+                    jsonObject=jsonArrayDatosProductos.getJSONObject(i).getJSONObject("value");
+                    misproductos = new productos(
+                            jsonObject.getString("_id"),
+                            jsonObject.getString("codigo"),
+                            jsonObject.getString("descripcion"),
+                            jsonObject.getString("marca"),
+                            jsonObject.getString("presentacion"),
+                            jsonObject.getString("precio"),
+                            jsonObject.getString("urlfoto")
+                    );
+                    productosArrayList.add(misproductos);
+                }
+                adaptadorImagenes adaptadorImagenes = new adaptadorImagenes(getApplicationContext(), productosArrayList);
+                listaproductos.setAdapter(adaptadorImagenes);
 
-        registerForContextMenu(listaproductos);
-        productosArrayListcopy.addAll(productosArrayList);
+                registerForContextMenu(listaproductos);
+                productosArrayListcopy.addAll(productosArrayList);
+            }else{
+                mensajes("No hay datos");
+                agregaproductos("nuevo", new String[]{});
+            }
+        }catch (Exception e){
+            mensajes(e.getMessage());
+        }
     }
 
+
+    //metodo para comprobar si hay datos
+    private void comprobardatos() {
+        comprobardatosOnline();
+    }
 
 
     class productos{
@@ -309,4 +369,34 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG).show();
     }
 
+    private class ConexionConElServer extends AsyncTask<String, String, String> {
+        HttpURLConnection urlConnection;
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected String doInBackground(String... parametros) {
+            StringBuilder result = new StringBuilder();
+            try {
+                String uri = parametros[0];
+                String metodo = parametros[1];
+                URL url = new URL(uri);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod(metodo);
+
+                InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String linea;
+                while ((linea = bufferedReader.readLine()) != null) {
+                    result.append(linea);
+                }
+            } catch (Exception e) {
+                Log.i("GET", e.getMessage());
+            }
+            return result.toString();
+        }
+    }
 }

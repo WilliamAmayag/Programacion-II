@@ -33,6 +33,7 @@ public class agregarproductos extends AppCompatActivity {
     Button btnagregarproducto;
     DB miconexion;
     TextView temp;
+    utilidades miUrl;
 
 
     @Override
