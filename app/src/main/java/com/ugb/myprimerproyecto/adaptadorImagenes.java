@@ -19,9 +19,9 @@ public class adaptadorImagenes  extends BaseAdapter {
     LayoutInflater layoutInflater;
     productos misProductos;
 
-    public adaptadorImagenes(Context context, ArrayList<productos> datosAmigosArrayList) {
+    public adaptadorImagenes(Context context, ArrayList<productos> datosproductosArrayList) {
         this.context = context;
-        this.datosproductosArrayList = datosAmigosArrayList;
+        this.datosproductosArrayList = datosproductosArrayList;
     }
 
     @Override
