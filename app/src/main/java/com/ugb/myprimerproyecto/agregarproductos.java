@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -29,11 +31,12 @@ public class agregarproductos extends AppCompatActivity {
     ImageView imgfotodeproducto;
     Intent tomarfotointent;
     String urldefoto;
-    String idproducto, accion = "nuevo";
+    String idproducto, accion = "nuevo", rev;
     Button btnagregarproducto;
     DB miconexion;
     TextView temp;
     utilidades miUrl;
+    detectarInternet di;
 
 
     @Override
@@ -145,28 +148,51 @@ public class agregarproductos extends AppCompatActivity {
 
     //Metodo para agregar producto
     private void agregarproducto() {
-        temp = findViewById(R.id.txtcodigo);
-        String codigo = temp.getText().toString();
+        try {
+            temp = findViewById(R.id.txtcodigo);
+            String codigo = temp.getText().toString();
 
-        temp = findViewById(R.id.txtdescripcion);
-        String descripcion = temp.getText().toString();
+            temp = findViewById(R.id.txtdescripcion);
+            String descripcion = temp.getText().toString();
 
-        temp = findViewById(R.id.txtmarca);
-        String marca = temp.getText().toString();
+            temp = findViewById(R.id.txtmarca);
+            String marca = temp.getText().toString();
 
-         temp = findViewById(R.id.txtpresentacion);
-        String presentacion = temp.getText().toString();
+            temp = findViewById(R.id.txtpresentacion);
+            String presentacion = temp.getText().toString();
 
-        temp = findViewById(R.id.txtprecio);
-        String presio = temp.getText().toString();
+            temp = findViewById(R.id.txtprecio);
+            String presio = temp.getText().toString();
 
 
-        String datos[] = {idproducto,codigo,descripcion,marca,presentacion,presio,urldefoto};
-        miconexion.administracion_de_productos(accion,datos);
-        mensajes("Registro guardado");
-        regresarmainactivity();
-        
-        mostrardatosproducto();
+            JSONObject datosproductos = new JSONObject();
+            if(accion.equals("modificar") && idproducto.length()>0 && rev.length()>0 ){
+                datosproductos.put("_id",idproducto);
+                datosproductos.put("_rev",rev);
+            }
+
+            datosproductos.put("codigo",codigo);
+            datosproductos.put("descripcion",descripcion);
+            datosproductos.put("marca",marca);
+            datosproductos.put("presentacion",presentacion);
+            datosproductos.put("precio",presio);
+            datosproductos.put("urlfoto",urldefoto);
+            String[] datos = {idproducto, codigo, descripcion, marca, presentacion, presio, urldefoto };
+
+            di = new detectarInternet(getApplicationContext());
+            if (di.hayConexionInternet()) {
+                enviarDatos guardarproducto = new enviarDatos(getApplicationContext());
+                String resp = guardarproducto.execute(datosproductos.toString()).get();
+            }
+            miconexion.administracion_de_productos(accion, datos);
+            mensajes("Registro guardado con exito.");
+
+            regresarmainactivity();
+
+        }catch (Exception w){
+
+        }
+
     }
 
     private void mostrardatosproducto() {
@@ -175,26 +201,27 @@ public class agregarproductos extends AppCompatActivity {
                Bundle recibirparametros = getIntent().getExtras();
                accion = recibirparametros.getString("accion");
                if(accion.equals("modificar")){
-                   String[] datos = recibirparametros.getStringArray("datos");
+                   JSONObject datos = new JSONObject(recibirparametros.getString("datos")).getJSONObject("value");
 
-                   idproducto = datos[0];
+                   idproducto = datos.getString("_id");
+                   rev = datos.getString("_rev");
 
                    temp = findViewById(R.id.txtcodigo);
-                   temp.setText(datos[1]);
+                   temp.setText(datos.getString("codigo"));
 
                    temp = findViewById(R.id.txtdescripcion);
-                   temp.setText(datos[2]);
+                   temp.setText(datos.getString("descripcion"));
 
                    temp = findViewById(R.id.txtmarca);
-                   temp.setText(datos[3]);
+                   temp.setText(datos.getString("marca"));
 
                    temp = findViewById(R.id.txtpresentacion);
-                   temp.setText(datos[4]);
+                   temp.setText(datos.getString("presentacion"));
 
                    temp = findViewById(R.id.txtprecio);
-                   temp.setText(datos[5]);
+                   temp.setText(datos.getString("precio"));
 
-                   urldefoto = datos[6];
+                   urldefoto =  datos.getString("urlfoto");
                    Bitmap bitmap = BitmapFactory.decodeFile(urldefoto);
                    imgfotodeproducto.setImageBitmap(bitmap);
                }

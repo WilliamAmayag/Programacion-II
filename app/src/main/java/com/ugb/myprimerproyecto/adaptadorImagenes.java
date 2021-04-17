@@ -3,6 +3,7 @@ package com.ugb.myprimerproyecto;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,30 +13,28 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class adaptadorImagenes extends BaseAdapter {
+public class adaptadorImagenes  extends BaseAdapter {
     Context context;
-    ArrayList<MainActivity.productos> productosArrayList;
+    ArrayList<productos> datosproductosArrayList;
     LayoutInflater layoutInflater;
-    MainActivity.productos misproductos;
+    productos misProductos;
 
-    public adaptadorImagenes(Context context, ArrayList<MainActivity.productos> productosArrayList) {
+    public adaptadorImagenes(Context context, ArrayList<productos> datosAmigosArrayList) {
         this.context = context;
-        this.productosArrayList = productosArrayList;
+        this.datosproductosArrayList = datosAmigosArrayList;
     }
 
     @Override
     public int getCount() {
-        return  productosArrayList.size();
+        return datosproductosArrayList.size();
     }
-
     @Override
     public Object getItem(int position) {
-        return productosArrayList.get(position);
+        return datosproductosArrayList.get(position);
     }
-
     @Override
     public long getItemId(int position) {
-        return  Long.parseLong( productosArrayList.get(position).getIdproducto() );
+        return 0;
     }
 
     @Override
@@ -45,13 +44,13 @@ public class adaptadorImagenes extends BaseAdapter {
         TextView temp = encuadre.findViewById(R.id.lblnombre);
         ImageView img = encuadre.findViewById(R.id.miniatura);
         try{
-            misproductos = productosArrayList.get(position);
-            temp.setText(misproductos.getDescripcion());
+            misProductos = datosproductosArrayList.get(position);
+            temp.setText(misProductos.getDescripcion());
 
             temp = encuadre.findViewById(R.id.lblprecio);
-            temp.setText("$"+misproductos.getPrecio());
+            temp.setText("$"+misProductos.getPrecio());
 
-            Bitmap imagenBitmap = BitmapFactory.decodeFile(misproductos.getUrlfoto());
+            Bitmap imagenBitmap = BitmapFactory.decodeFile(misProductos.getUrlfoto());
             img.setImageBitmap(imagenBitmap);
         }catch (Exception e){
         }
