@@ -177,6 +177,7 @@ public class agregarproductos extends AppCompatActivity {
             datosproductos.put("presentacion",presentacion);
             datosproductos.put("precio",presio);
             datosproductos.put("urlfoto",urldefoto);
+
             String[] datos = {idproducto, codigo, descripcion, marca, presentacion, presio, urldefoto };
 
             di = new detectarInternet(getApplicationContext());

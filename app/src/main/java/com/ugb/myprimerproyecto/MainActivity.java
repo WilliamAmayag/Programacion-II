@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             agregarProductos("nuevo");
         });
         obtenerDatos();
+        buscarProductos();
        }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -98,18 +99,37 @@ public class MainActivity extends AppCompatActivity {
 
     private void eliminarProducto(){
         try {
-            androidx.appcompat.app.AlertDialog.Builder confirmacion = new AlertDialog.Builder(MainActivity.this);
-            confirmacion.setTitle("Esta seguro de eliminar el registro?");
-            confirmacion.setMessage(datosproductoscursor.getString(2));
+            jsonObjectDatosProductos = jsonArrayDatosProductos.getJSONObject(position).getJSONObject("value");
+            AlertDialog.Builder confirmacion = new AlertDialog.Builder(MainActivity.this);
+            confirmacion.setTitle("Esta seguro de eliminar?");
+            confirmacion.setMessage(jsonObjectDatosProductos.getString("descripcion"));
             confirmacion.setPositiveButton("Si", (dialog, which) -> {
-                miconexion = new DB(getApplicationContext(), "", null, 1);
-                datosproductoscursor = miconexion.administracion_de_productos("eliminar", new String[]{datosproductoscursor.getString(0)});
-                obtenerDatos();
-                mensajes("Registro eliminado con exito");
-                dialog.dismiss();
+
+               try {
+                   if(di.hayConexionInternet()){
+                       ConexionconServer objElimina = new ConexionconServer();
+                       String resp =  objElimina.execute(u.url_mto +
+                               jsonObjectDatosProductos.getString("_id")+ "?rev="+
+                               jsonObjectDatosProductos.getString("_rev"), "DELETE"
+                       ).get();
+                       JSONObject jsonRespEliminar = new JSONObject(resp);
+                       if(jsonRespEliminar.getBoolean("ok")){
+                           jsonArrayDatosProductos.remove(position);
+                           mostrarDatos();
+                       }
+                   }
+                   miconexion = new DB(getApplicationContext(), "", null, 1);
+                   datosproductoscursor = miconexion.administracion_de_productos("eliminar", new String[]{jsonObjectDatosProductos.getString("_id")});
+                   obtenerDatos();
+                   mensajes("Registro eliminado");
+                   dialog.dismiss();
+               }catch (Exception e){
+
+               }
+
             });
             confirmacion.setNegativeButton("No", (dialog, which) -> {
-                mensajes("Eliminacion canelada por el usuario");
+                mensajes("Eliminacion detendia");
                 dialog.dismiss();
             });
             confirmacion.create().show();
@@ -166,11 +186,16 @@ public class MainActivity extends AppCompatActivity {
         try {
             Bundle parametros = new Bundle();
             parametros.putString("accion", accion);
-            parametros.putString("datos", jsonArrayDatosProductos.getJSONObject(position).toString() );
+
+            if(jsonArrayDatosProductos.length()>0){
+                parametros.putString("datos", jsonArrayDatosProductos.getJSONObject(position).toString() );
+
+            }
 
             Intent i = new Intent(getApplicationContext(), agregarproductos.class);
             i.putExtras(parametros);
             startActivity(i);
+
         }catch (Exception e){
             mensajes(e.getMessage());
         }
@@ -179,11 +204,11 @@ public class MainActivity extends AppCompatActivity {
         try {
             miconexion = new DB(getApplicationContext(), "", null, 1);
             datosproductoscursor = miconexion.administracion_de_productos("consultar", null);
-            if (datosproductoscursor.moveToFirst()) {//si hay datos que mostrar
+            if (datosproductoscursor.moveToFirst()) {
                 jsonObjectDatosProductos = new JSONObject();
                 JSONObject jsonValueObject = new JSONObject();
+                jsonArrayDatosProductos = new JSONArray();
                 do {
-
                     jsonObjectDatosProductos.put("_id", datosproductoscursor.getString(0));
                     jsonObjectDatosProductos.put("_rev", datosproductoscursor.getString(0));
                     jsonObjectDatosProductos.put("codigo", datosproductoscursor.getString(1));
@@ -193,12 +218,15 @@ public class MainActivity extends AppCompatActivity {
                     jsonObjectDatosProductos.put("precio", datosproductoscursor.getString(5));
                     jsonObjectDatosProductos.put("urlfoto", datosproductoscursor.getString(6));
 
-
                     jsonValueObject.put("value", jsonObjectDatosProductos);
+
                     jsonArrayDatosProductos.put(jsonValueObject);
                 } while (datosproductoscursor.moveToNext());
-                mostrarDatos();
-            } else {//sino que llame para agregar nuevos amigos...
+
+
+               mostrarDatos();
+
+            } else {
                 mensajes("No hay datos");
                 agregarProductos("nuevo");
             }
@@ -220,9 +248,11 @@ public class MainActivity extends AppCompatActivity {
     }
     private void obtenerDatos(){
         if(di.hayConexionInternet()) {
-            mensajes("Conectado, mostrando datos desde la nube");
-            obtenerDatosProductosOnLine();
-        } else {
+         mensajes("Mostrando datos desde la nube");
+        obtenerDatosProductosOnLine();
+    } else {
+           mensajes("Mostrando datos locales");
+
             obtenerDatosProductosOffLine();
         }
     }
