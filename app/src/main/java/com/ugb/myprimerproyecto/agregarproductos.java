@@ -68,7 +68,7 @@ public class agregarproductos extends AppCompatActivity {
            agregarproducto();
         });
 
-        mostrardatosproducto();
+       mostrardatosproducto();
 
     }
 
@@ -201,6 +201,7 @@ public class agregarproductos extends AppCompatActivity {
            try {
                Bundle recibirparametros = getIntent().getExtras();
                accion = recibirparametros.getString("accion");
+
                if(accion.equals("modificar")){
                    JSONObject datos = new JSONObject(recibirparametros.getString("datos")).getJSONObject("value");
 

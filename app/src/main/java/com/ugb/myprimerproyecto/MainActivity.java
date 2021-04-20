@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         di = new detectarInternet(getApplicationContext());
         btnadd = findViewById(R.id.btnagregarproducto);
         btnadd.setOnClickListener(v->{
-            agregarProductos("nuevo");
+            agregaproducto("nuevo");
         });
         obtenerDatos();
         buscarProductos();
@@ -78,14 +78,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     @Override
+
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         try {
             switch (item.getItemId()) {
                 case R.id.mxnAgregar:
-                    agregarProductos("nuevo");
+                    agregaproducto("nuevo");
                     break;
                 case R.id.mxnModificar:
-                    agregarProductos("modificar");
+                    ModificarProductos ("modificar");
                     break;
                 case R.id.mxnEliminar:
                     eliminarProducto();
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void agregarProductos(String accion){
+    private void ModificarProductos(String accion){
         try {
             Bundle parametros = new Bundle();
             parametros.putString("accion", accion);
@@ -199,6 +200,18 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             mensajes(e.getMessage());
         }
+    }
+
+    private void agregaproducto(String accion){
+        Bundle parametros = new Bundle();
+        parametros.putString("accion", accion);
+
+
+        Intent i = new Intent(getApplicationContext(), agregarproductos.class);
+        i.putExtras(parametros);
+        startActivity(i);
+
+
     }
     private void obtenerDatosProductosOffLine(){
         try {
@@ -228,12 +241,13 @@ public class MainActivity extends AppCompatActivity {
 
             } else {
                 mensajes("No hay datos");
-                agregarProductos("nuevo");
+                agregaproducto("nuevo");
             }
         }catch (Exception e){
             mensajes(e.getMessage());
         }
     }
+
     private void obtenerDatosProductosOnLine(){
         try {
             ConexionconServer conexionconServer = new ConexionconServer();
@@ -246,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
             mensajes(ex.getMessage());
         }
     }
+
     private void obtenerDatos(){
         if(di.hayConexionInternet()) {
          mensajes("Mostrando datos desde la nube");
@@ -256,8 +271,11 @@ public class MainActivity extends AppCompatActivity {
             obtenerDatosProductosOffLine();
         }
     }
+
+
     private void mostrarDatos(){
         try{
+
             if(jsonArrayDatosProductos.length()>0){
                 ltsproductos = findViewById(R.id.listproductos);
                 productosArrayList.clear();
@@ -286,15 +304,20 @@ public class MainActivity extends AppCompatActivity {
                 productosArrayListCopy.addAll(productosArrayList);
             }else{
                 mensajes("No hay datos");
-                agregarProductos("nuevo");
+                agregaproducto("nuevo");
             }
         }catch (Exception e){
             mensajes(e.getMessage());
         }
     }
+
+
     private void mensajes(String msg){
         Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
     }
+
+
+
     private class ConexionconServer extends AsyncTask<String, String, String>{
         HttpURLConnection urlConnection;
 
