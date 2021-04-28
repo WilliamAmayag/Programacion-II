@@ -33,7 +33,7 @@ public class DB extends SQLiteOpenHelper {
                 break;
 
             case "nuevo":
-                sqLiteDatabaseW.execSQL("INSERT INTO tblpeli(titulo, sipnosis, duracion, precio, irlfoto, urlvideo) VALUES ('"+datos[1]+"','"+datos[2]+"','"+datos[3]+"','"+datos[4]+"','"+datos[5]+"','"+datos[6]+"')");
+                sqLiteDatabaseW.execSQL("INSERT INTO tblpeli(titulo, sipnosis, duracion, precio, urlfoto, urlvideo) VALUES ('"+datos[1]+"','"+datos[2]+"','"+datos[3]+"','"+datos[4]+"','"+datos[5]+"','"+datos[6]+"')");
                 break;
             case "modificar":
                 sqLiteDatabaseW.execSQL("update tblpeli set titulo='"+datos[1]+"',sipnosis='"+datos[2]+"',duracion='"+datos[3]+"',precio='"+datos[4]+"',urlfoto='"+datos[5]+"',urlvideo='"+datos[6]+"' where idpeli='"+datos[0]+"'");
@@ -53,7 +53,7 @@ public class DB extends SQLiteOpenHelper {
         switch (accion){
 
             case "eliminar":
-                sqLiteDatabaseW.execSQL("DELETE FROM tblproductos WHERE idpeli='"+ idd+"'");
+                sqLiteDatabaseW.execSQL("DELETE FROM tblpeli WHERE idpeli='"+ idd+"'");
                 break;
         }
 

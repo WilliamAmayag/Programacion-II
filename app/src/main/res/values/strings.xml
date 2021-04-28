@@ -1,15 +1,4 @@
 <resources>
-    <string name="app_name">Calculadora básica</string>
-    <string-array name="operaciones">
-        <item>Suma</item>
-        <item>Resta</item>
-        <item>Multiplicación</item>
-        <item>División</item>
-        <item>Factorial</item>
-        <item>Porcentaje</item>
-        <item>Exponenciación</item>
-        <item>Raíz</item>
-        <item>Modulo</item>
-        <item>Mayor de</item>
-    </string-array>
+    <string name="app_name">Renta de peliculas</string>
+
 </resources>
