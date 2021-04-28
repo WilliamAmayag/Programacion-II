@@ -90,7 +90,7 @@
                 android:layout_margin="10dp"
                 android:text="Guardar registro " />
 
-
+ //dd
         </LinearLayout>
     </ScrollView>
 
