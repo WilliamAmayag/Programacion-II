@@ -6,18 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,15 +20,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    //  Brian Nelson Centeno Alvarado     USIS019817
+    //  Herson Geovanni López Campos      USIS031120
+    //  José Daniel Mejia Jovel           USIS010420
+    //  William Alexander Amaya García    USIS032120
     FloatingActionButton btnadd;
     DB miconexion;
     ListView ltspelis;
@@ -65,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_productos, menu);
+        menuInflater.inflate(R.menu.menu_edit, menu);
         try {
             if(di.hayConexionInternet()) {
                 AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) menuInfo;
@@ -96,11 +89,55 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.mxnEliminar:
                     Eliminar();
                     break;
+                case R.id.mxnVista:
+                    ver("datos");
+                    break;
             }
         }catch (Exception ex){
             mensajes(ex.getMessage());
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void ver(String datos) {
+        Bundle parametros = new Bundle();
+        parametros.putString("accion","ver" );
+        parametros.putString("idlocal", idlocal);
+        jsonObjectDatosPelis = new JSONObject();
+        JSONObject jsonValueObject = new JSONObject();
+        if(di.hayConexionInternet())
+        {
+            try {
+                if(jsonArrayDatosPelis.length()>0){
+                    parametros.putString("datos", jsonArrayDatosPelis.getJSONObject(position).toString() );
+                }
+            }catch (Exception e){
+                mensajes(e.getMessage());
+            }
+        }else{
+            try {
+                jsonArrayDatosPelis = new JSONArray();
+                jsonObjectDatosPelis.put("_id", datospeliscursor.getString(0));
+                jsonObjectDatosPelis.put("_rev", datospeliscursor.getString(0));
+                jsonObjectDatosPelis.put("titulo", datospeliscursor.getString(1));
+                jsonObjectDatosPelis.put("sinopsis", datospeliscursor.getString(2));
+                jsonObjectDatosPelis.put("duracion", datospeliscursor.getString(3));
+                jsonObjectDatosPelis.put("precio", datospeliscursor.getString(4));
+                jsonObjectDatosPelis.put("urlfoto", datospeliscursor.getString(5));
+                jsonObjectDatosPelis.put("urltriler", datospeliscursor.getString(6));
+                jsonValueObject.put("value", jsonObjectDatosPelis);
+                jsonArrayDatosPelis.put(jsonValueObject);
+                if(jsonArrayDatosPelis.length()>0){
+                    parametros.putString("datos", jsonArrayDatosPelis.getJSONObject(position).toString() );
+                }
+
+            }catch (Exception e){
+                mensajes(e.getMessage());
+            }
+        }
+        Intent i = new Intent(getApplicationContext(), vistaPeli.class);
+        i.putExtras(parametros);
+        startActivity(i);
     }
 
     private void Eliminar(){
@@ -148,8 +185,6 @@ public class MainActivity extends AppCompatActivity {
             mensajes(ex.getMessage());
         }
     }
-
-
 
     private void Modificar(String accion){
         Bundle parametros = new Bundle();

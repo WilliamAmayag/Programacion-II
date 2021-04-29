@@ -15,6 +15,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class enviarDatos extends AsyncTask<String, String, String> {
+    //  Brian Nelson Centeno Alvarado     USIS019817
+    //  Herson Geovanni López Campos      USIS031120
+    //  José Daniel Mejia Jovel           USIS010420
+    //  William Alexander Amaya García    USIS032120
     Context context;
     utilidades uc = new utilidades();
     String resp;

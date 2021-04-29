@@ -2,6 +2,10 @@ package com.ugb.myprimerproyecto;
 
 
 class pelis{
+    //  Brian Nelson Centeno Alvarado     USIS019817
+    //  Herson Geovanni López Campos      USIS031120
+    //  José Daniel Mejia Jovel           USIS010420
+    //  William Alexander Amaya García    USIS032120
     String idpelis;
     String rev;
     String titulo;

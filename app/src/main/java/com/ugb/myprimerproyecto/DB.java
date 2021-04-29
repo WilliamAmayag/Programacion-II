@@ -7,6 +7,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class DB extends SQLiteOpenHelper {
+    //  Brian Nelson Centeno Alvarado     USIS019817
+    //  Herson Geovanni López Campos      USIS031120
+    //  José Daniel Mejia Jovel           USIS010420
+    //  William Alexander Amaya García    USIS032120
     static String nombre_bd = "DB_Pelis";
     static String tblpeli = "CREATE TABLE tblpeli(idpeli integer primary key autoincrement, titulo text, sipnosis text, duracion text, precio text, urlfoto text, urlvideo text)";
     public DB(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {

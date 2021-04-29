@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    tools:context=".agregarpelis">
-
+    tools:context=".vistaPeli">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,60 +34,86 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp" />
 
-            <Button
-                android:id="@+id/btncargarvideo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:text="Cargar Video" />
-
-            <EditText
-                android:id="@+id/txtTitulo"
+            <TextView
+                android:id="@+id/txtTitul"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imgfotopelicula"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
                 android:hint="Titulo" />
 
-            <EditText
-                android:id="@+id/txtsinopsis"
+            <TextView
+                android:id="@+id/txtTitulo"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtsinopsis"
+                android:layout_below="@id/txtTitul"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:hint="Titulo" />
+
+
+            <TextView
+                android:id="@+id/txtsinopsi"
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtTitulo"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
                 android:hint="Sinopsis" />
 
-            <EditText
-                android:id="@+id/txtduracion"
+            <TextView
+                android:id="@+id/txtsinopsis"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtduracion"
+                android:layout_below="@id/txtsinopsi"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:hint="Sinopsis" />
+
+            <TextView
+                android:id="@+id/txtduracio"
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtsinopsis"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:hint="Minutos" />
+
+            <TextView
+                android:id="@+id/txtduracion"
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtduracio"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
                 android:hint="Duracion" />
 
-
-            <EditText
+            <TextView
+                android:id="@+id/txtpreci"
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtduracion"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:hint="Precio" />
+            <TextView
                 android:id="@+id/txtprecio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtprecio"
+                android:textColor="@color/black"
+                android:layout_below="@id/txtpreci"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
                 android:hint="Precio" />
 
-
-            <Button
-                android:id="@+id/btnguardarpelicula"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtprecio"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:text="Guardar registro " />
 
         </LinearLayout>
     </ScrollView>
@@ -102,6 +126,6 @@
         android:layout_alignParentRight="true"
         android:layout_margin="25dp"
         android:layout_gravity="right"
-
         android:src="@drawable/abc_vector_test" />
+
 </RelativeLayout>

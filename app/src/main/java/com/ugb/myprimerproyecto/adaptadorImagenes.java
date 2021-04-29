@@ -3,6 +3,7 @@ package com.ugb.myprimerproyecto;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class adaptadorImagenes  extends BaseAdapter {
+    //  Brian Nelson Centeno Alvarado     USIS019817
+    //  Herson Geovanni López Campos      USIS031120
+    //  José Daniel Mejia Jovel           USIS010420
+    //  William Alexander Amaya García    USIS032120
+
     Context context;
     ArrayList<pelis> datospelisArrayList;
     LayoutInflater layoutInflater;
@@ -50,8 +56,11 @@ public class adaptadorImagenes  extends BaseAdapter {
             temp = encuadre.findViewById(R.id.lblprecio);
             temp.setText("$"+misPelis.getPrecio());
 
-            Bitmap imagenBitmap = BitmapFactory.decodeFile(misPelis.getUrlfoto());
-            img.setImageBitmap(imagenBitmap);
+          String urldefoto = misPelis.getUrlfoto();
+
+
+         img.setImageURI(Uri.parse(urldefoto));
+
         }catch (Exception e){
         }
         return encuadre;

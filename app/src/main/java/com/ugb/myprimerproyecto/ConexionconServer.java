@@ -11,6 +11,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ConexionconServer extends AsyncTask<String, String, String> {
+    //  Brian Nelson Centeno Alvarado     USIS019817
+    //  Herson Geovanni López Campos      USIS031120
+    //  José Daniel Mejia Jovel           USIS010420
+    //  William Alexander Amaya García    USIS032120
     HttpURLConnection urlConnection;
 
     @Override
