@@ -104,13 +104,92 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void Eliminar(){
-       //agregar eliminar
+        try {
+            AlertDialog.Builder confirmacion = new AlertDialog.Builder(MainActivity.this);
+            confirmacion.setTitle("Esta seguro de eliminar?");
+            if (di.hayConexionInternet())
+            {
+                jsonObjectDatosPelis = jsonArrayDatosPelis.getJSONObject(position).getJSONObject("value");
+                confirmacion.setMessage(jsonObjectDatosPelis.getString("titulo"));
+            }else {
+                confirmacion.setMessage(datospeliscursor.getString(1));
+            }
+
+            confirmacion.setPositiveButton("Si", (dialog, which) -> {
+
+                try {
+                    if(di.hayConexionInternet()){
+                        ConexionconServer objElimina = new ConexionconServer();
+                        String resp =  objElimina.execute(u.url_mto +
+                                jsonObjectDatosPelis.getString("_id")+ "?rev="+
+                                jsonObjectDatosPelis.getString("_rev"), "DELETE"
+                        ).get();
+                        JSONObject jsonRespEliminar = new JSONObject(resp);
+                        if(jsonRespEliminar.getBoolean("ok")){
+                            jsonArrayDatosPelis.remove(position);
+                            mostrarDatos();
+                        }
+                    }
+
+                    miconexion = new DB(getApplicationContext(), "", null, 1);
+                    datospeliscursor = miconexion.eliminar("eliminar", datospeliscursor.getString(0));
+                    obtenerDatos();
+                    mensajes("Registro eliminado");
+                    dialog.dismiss();
+                }catch (Exception e){
+                }
+            });
+            confirmacion.setNegativeButton("No", (dialog, which) -> {
+                mensajes("Eliminacion detendia");
+                dialog.dismiss();
+            });
+            confirmacion.create().show();
+        } catch (Exception ex){
+            mensajes(ex.getMessage());
+        }
     }
 
 
 
     private void Modificar(String accion){
-       //Agregar modificar
+        Bundle parametros = new Bundle();
+        parametros.putString("accion", accion);
+        parametros.putString("idlocal", idlocal);
+        jsonObjectDatosPelis = new JSONObject();
+        JSONObject jsonValueObject = new JSONObject();
+        if(di.hayConexionInternet())
+        {
+            try {
+                if(jsonArrayDatosPelis.length()>0){
+                    parametros.putString("datos", jsonArrayDatosPelis.getJSONObject(position).toString() );
+                }
+            }catch (Exception e){
+                mensajes(e.getMessage());
+            }
+        }else{
+            try {
+                jsonArrayDatosPelis = new JSONArray();
+                jsonObjectDatosPelis.put("_id", datospeliscursor.getString(0));
+                jsonObjectDatosPelis.put("_rev", datospeliscursor.getString(0));
+                jsonObjectDatosPelis.put("titulo", datospeliscursor.getString(1));
+                jsonObjectDatosPelis.put("sinopsis", datospeliscursor.getString(2));
+                jsonObjectDatosPelis.put("duracion", datospeliscursor.getString(3));
+                jsonObjectDatosPelis.put("precio", datospeliscursor.getString(4));
+                jsonObjectDatosPelis.put("urlfoto", datospeliscursor.getString(5));
+                jsonObjectDatosPelis.put("urltriler", datospeliscursor.getString(6));
+                jsonValueObject.put("value", jsonObjectDatosPelis);
+                jsonArrayDatosPelis.put(jsonValueObject);
+                if(jsonArrayDatosPelis.length()>0){
+                    parametros.putString("datos", jsonArrayDatosPelis.getJSONObject(position).toString() );
+                }
+
+            }catch (Exception e){
+                mensajes(e.getMessage());
+            }
+        }
+        Intent i = new Intent(getApplicationContext(), agregarpelis.class);
+        i.putExtras(parametros);
+        startActivity(i);
     }
 
     private void Agregar(String accion){
