@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 if (tempVal.getText().toString().length()<1){
                     pelisArrayList.addAll(pelisArrayListCopy);
                 } else{
-                    for (pelis PB : pelisArrayList){
+                    for (pelis PB : pelisArrayListCopy){
                         String Titulo = PB.getTitulo();
                         String sinopsis = PB.getSinopsis();
                         String duracion = PB.getDuracion();
