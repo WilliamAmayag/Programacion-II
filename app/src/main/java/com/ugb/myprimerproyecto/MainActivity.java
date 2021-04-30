@@ -7,12 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             Agregar("nuevo");
         });
         obtenerDatos();
-      //  Buscar();
+        Buscar();
        }
 
     @Override
@@ -185,6 +188,50 @@ public class MainActivity extends AppCompatActivity {
             mensajes(ex.getMessage());
         }
     }
+
+    private void Buscar() {
+        TextView tempVal = findViewById(R.id.txtbuscar);
+        tempVal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                pelisArrayList.clear();
+                if (tempVal.getText().toString().length()<1){
+                    pelisArrayList.addAll(pelisArrayListCopy);
+                } else{
+                    for (pelis PB : pelisArrayList){
+                        String Titulo = PB.getTitulo();
+                        String sinopsis = PB.getSinopsis();
+                        String duracion = PB.getDuracion();
+                        String precio = PB.getPrecio();
+                        String buscando = tempVal.getText().toString().trim().toLowerCase();
+                        if(sinopsis.toLowerCase().contains(buscando) ||
+                                Titulo.toLowerCase().contains(buscando) ||
+                                sinopsis.toLowerCase().contains(buscando) ||
+                                duracion.toLowerCase().contains(buscando) ||
+                                precio.toLowerCase().contains(buscando)){
+                            pelisArrayList.add(PB);
+                        }
+                    }
+                }
+                adaptadorImagenes adaptadorImagenes = new adaptadorImagenes(getApplicationContext(), pelisArrayList);
+                ltspelis.setAdapter(adaptadorImagenes);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+
+
 
     private void Modificar(String accion){
         Bundle parametros = new Bundle();
