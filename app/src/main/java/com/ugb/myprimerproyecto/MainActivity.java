@@ -66,25 +66,18 @@ public class MainActivity extends AppCompatActivity {
             try {
             for (int i = 0; i < jsonArrayDatosPelis.length(); i++) {
                 jsonObjectDatosPelis = jsonArrayDatosPelis.getJSONObject(i).getJSONObject("value");
-                    if (di.hayConexionInternet()) {
-                        ConexionconServer objElimina = new ConexionconServer();
-                        String resp = objElimina.execute(u.url_mto +
-                                jsonObjectDatosPelis.getString("_id") + "?rev=" +
-                                jsonObjectDatosPelis.getString("_rev"), "DELETE"
-                        ).get();
-                        JSONObject jsonRespEliminar = new JSONObject(resp);
-                        if (jsonRespEliminar.getBoolean("ok")) {
-                            jsonArrayDatosPelis.remove(i);
-                        }
-                    }
-                }
+                ConexionconServer objElimina = new ConexionconServer();
+                String resp = objElimina.execute(u.url_mto +
+                        jsonObjectDatosPelis.getString("_id") + "?rev=" +
+                        jsonObjectDatosPelis.getString("_rev"), "DELETE"
+                ).get();  }
+
                 miconexion = new DB(getApplicationContext(), "", null, 1);
                 datospeliscursor = miconexion.administracion_de_pelis("consultar", null);
                 if( datospeliscursor.moveToFirst() ){
                     JSONObject datospelis = new JSONObject();
 
                     do {
-
                         datospelis.put("titulo",datospeliscursor.getString(1));
                         datospelis.put("sinopsis",datospeliscursor.getString(2));
                         datospelis.put("duracion",datospeliscursor.getString(3));
@@ -98,9 +91,11 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     mensajes("No hay datos");
                 }
+
             } catch (Exception e) {
+           mensajes(e.getMessage());
             }
-            obtenerDatos();
+           //obtenerDatos();
         }
        }
 
@@ -211,11 +206,12 @@ public class MainActivity extends AppCompatActivity {
                                 jsonObjectDatosPelis.getString("_id")+ "?rev="+
                                 jsonObjectDatosPelis.getString("_rev"), "DELETE"
                         ).get();
+
                         JSONObject jsonRespEliminar = new JSONObject(resp);
                         if(jsonRespEliminar.getBoolean("ok")){
-                            jsonArrayDatosPelis.remove(position);
-                            mostrarDatos();
-                        }
+                          jsonArrayDatosPelis.remove(position);
+                         mostrarDatos();
+                       }
                     }
 
                     miconexion = new DB(getApplicationContext(), "", null, 1);

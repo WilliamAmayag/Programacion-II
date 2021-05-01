@@ -40,7 +40,7 @@ public class agregarpelis extends AppCompatActivity {
     FloatingActionButton btnregresar;
     ImageView imgfotodepeli;
     VideoView vdidepeli;
-    String urldefoto, urldevideo,idpeli,idlocal, accion = "nuevo", rev, urivideo;
+    String urldefoto="", urldevideo="",idpeli,idlocal, accion = "nuevo", rev, urivideo;
     Button btnagregar, btncargarvideo;
     DB miconexion;
     TextView temp;
@@ -110,19 +110,9 @@ public class agregarpelis extends AppCompatActivity {
             datospelis.put("sinopsis",sinopsis);
             datospelis.put("duracion",duracion);
             datospelis.put("precio",precio);
+            datospelis.put("urlfoto",urldefoto);
+            datospelis.put("urltriler",urldevideo);
 
-            if (urldefoto != ""){
-                datospelis.put("urlfoto",urldefoto);
-            }else {
-                urldefoto = "404nofound";
-                datospelis.put("urlfoto",urldefoto);
-            }
-            if (urldevideo != ""){
-                datospelis.put("urltriler",urldevideo);
-            }else {
-                urldevideo = "404nofound";
-                datospelis.put("urlfoto",urldefoto);
-            }
 
             String[] datos = {idlocal, titulo, sinopsis, duracion, precio, urldefoto, urldevideo };
             miconexion.administracion_de_pelis(accion, datos);
