@@ -53,8 +53,55 @@ public class MainActivity extends AppCompatActivity {
         btnadd.setOnClickListener(v->{
             Agregar("nuevo");
         });
+        sincronizarDatos();
         obtenerDatos();
         Buscar();
+       }
+
+       public void sincronizarDatos() {
+        if (di.hayConexionInternet()) {
+            obtenerDatosOnLine();
+            pelisArrayList.clear();
+            pelisArrayListCopy.clear();
+            try {
+            for (int i = 0; i < jsonArrayDatosPelis.length(); i++) {
+                jsonObjectDatosPelis = jsonArrayDatosPelis.getJSONObject(i).getJSONObject("value");
+                    if (di.hayConexionInternet()) {
+                        ConexionconServer objElimina = new ConexionconServer();
+                        String resp = objElimina.execute(u.url_mto +
+                                jsonObjectDatosPelis.getString("_id") + "?rev=" +
+                                jsonObjectDatosPelis.getString("_rev"), "DELETE"
+                        ).get();
+                        JSONObject jsonRespEliminar = new JSONObject(resp);
+                        if (jsonRespEliminar.getBoolean("ok")) {
+                            jsonArrayDatosPelis.remove(i);
+                        }
+                    }
+                }
+                miconexion = new DB(getApplicationContext(), "", null, 1);
+                datospeliscursor = miconexion.administracion_de_pelis("consultar", null);
+                if( datospeliscursor.moveToFirst() ){
+                    JSONObject datospelis = new JSONObject();
+
+                    do {
+
+                        datospelis.put("titulo",datospeliscursor.getString(1));
+                        datospelis.put("sinopsis",datospeliscursor.getString(2));
+                        datospelis.put("duracion",datospeliscursor.getString(3));
+                        datospelis.put("precio",datospeliscursor.getString(4));
+                        datospelis.put("urlfoto",datospeliscursor.getString(5));
+                        datospelis.put("urltriler",datospeliscursor.getString(6));
+                        enviarDatos guardarpelis = new enviarDatos(getApplicationContext());
+                        String resp = guardarpelis.execute(datospelis.toString()).get();
+
+                    } while (datospeliscursor.moveToNext());
+                } else {
+                    mensajes("No hay datos");
+                }
+            } catch (Exception e) {
+            }
+            obtenerDatos();
+        }
        }
 
     @Override

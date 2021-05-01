@@ -125,6 +125,7 @@ public class agregarpelis extends AppCompatActivity {
             }
 
             String[] datos = {idlocal, titulo, sinopsis, duracion, precio, urldefoto, urldevideo };
+            miconexion.administracion_de_pelis(accion, datos);
 
             di = new detectarInternet(getApplicationContext());
             if (di.hayConexionInternet()) {
@@ -132,7 +133,6 @@ public class agregarpelis extends AppCompatActivity {
                 String resp = guardarpelis.execute(datospelis.toString()).get();
             }
 
-            miconexion.administracion_de_pelis(accion, datos);
             mensajes("Registro guardado con exito.");
             regresarmainactivity();
         }catch (Exception w){
