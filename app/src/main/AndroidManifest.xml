@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,8 +13,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.MyPrimerProyecto">
-        <activity android:name=".mostrarpostulados"></activity>
+        <activity android:name=".agregarpostulados"></activity>
+        <activity android:name=".mostrarpostulados" />
         <activity android:name=".registrorvotante" />
         <activity android:name=".MainActivity">
             <intent-filter>

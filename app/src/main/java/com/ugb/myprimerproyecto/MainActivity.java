@@ -48,31 +48,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logi() {
-        temp = findViewById(R.id.txtuss);
-        String dui = temp.getText().toString();
+     try {
+         temp = findViewById(R.id.txtuss);
+         String dui = temp.getText().toString();
 
-        temp = findViewById(R.id.txtpass);
-        String pass = temp.getText().toString();
+         temp = findViewById(R.id.txtpass);
+         String pass = temp.getText().toString();
 
-        miconexion = new DB(getApplicationContext(), "", null, 1);
-        datosusuariocursor = miconexion.consultar_usuario("consultar", dui,pass);
-        if( datosusuariocursor.moveToFirst() ) {
+         miconexion = new DB(getApplicationContext(), "", null, 1);
+         datosusuariocursor = miconexion.consultar_usuario("consultar", dui,pass);
+         if( datosusuariocursor.moveToFirst() ) {
 
-            String nombre = datosusuariocursor.getString(1);
-            String duii = datosusuariocursor.getString(2);
-            String telefono = datosusuariocursor.getString(3);
-            String mail = datosusuariocursor.getString(4);
-            String padss = datosusuariocursor.getString(5);
+             String nombre = datosusuariocursor.getString(1);
+             String duii = datosusuariocursor.getString(2);
+             String telefono = datosusuariocursor.getString(3);
+             String mail = datosusuariocursor.getString(4);
+             String padss = datosusuariocursor.getString(5);
 
-
-            Intent i = new Intent(MainActivity.this, mostrarpostulados.class);
-            i.putExtra(mostrarpostulados.nombre, nombre);
-            i.putExtra(mostrarpostulados.duii,duii);
-            i.putExtra(mostrarpostulados.telefono, telefono);
-            i.putExtra(mostrarpostulados.mail, mail);
-            i.putExtra(mostrarpostulados.padss,padss);
-            startActivity(i);
-        }
+mensajes("Bienvenido " + nombre);
+             Intent i = new Intent(MainActivity.this, mostrarpostulados.class);
+             i.putExtra(mostrarpostulados.nombre, nombre);
+             i.putExtra(mostrarpostulados.duii,duii);
+             i.putExtra(mostrarpostulados.telefono, telefono);
+             i.putExtra(mostrarpostulados.mail, mail);
+             i.putExtra(mostrarpostulados.padss,padss);
+             startActivity(i);
+         }
+     }catch (Exception e){
+         mensajes("no se encontro el usuario");
+     }
     }
 
 
