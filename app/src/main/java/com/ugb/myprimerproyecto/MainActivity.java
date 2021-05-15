@@ -27,13 +27,17 @@ public class MainActivity extends AppCompatActivity {
     Button login, registro;
     TextView temp;
     DB miconexion;
+    utilidades u;
+    JSONArray jsonArrayDatosvotantes;
+    JSONObject jsonObjectDatosvotantes;
     Cursor datosusuariocursor = null;
+    detectarInternet di;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        di = new detectarInternet(getApplicationContext());
         login = findViewById(R.id.btniniciar);
         registro = findViewById(R.id.btnregistrar);
 
@@ -55,27 +59,43 @@ public class MainActivity extends AppCompatActivity {
          temp = findViewById(R.id.txtpass);
          String pass = temp.getText().toString();
 
-         miconexion = new DB(getApplicationContext(), "", null, 1);
-         datosusuariocursor = miconexion.consultar_usuario("consultar", dui,pass);
-         if( datosusuariocursor.moveToFirst() ) {
+         ConexionconServer conexionconServer = new ConexionconServer();
+         String resp = conexionconServer.execute(u.urlobtenerdatosvotantes, "GET").get();
+         jsonObjectDatosvotantes=new JSONObject(resp);
+         jsonArrayDatosvotantes = jsonObjectDatosvotantes.getJSONArray("rows");
 
-             String nombre = datosusuariocursor.getString(1);
-             String duii = datosusuariocursor.getString(2);
-             String telefono = datosusuariocursor.getString(3);
-             String mail = datosusuariocursor.getString(4);
-             String padss = datosusuariocursor.getString(5);
+         JSONObject jsonObject;
+         if(di.hayConexionInternet()) {
+             if(jsonArrayDatosvotantes.length()>0) {
+                 for (int i = 0; i < jsonArrayDatosvotantes.length(); i++) {
 
-mensajes("Bienvenido " + nombre);
-             Intent i = new Intent(MainActivity.this, mostrarpostulados.class);
-             i.putExtra(mostrarpostulados.nombre, nombre);
-             i.putExtra(mostrarpostulados.duii,duii);
-             i.putExtra(mostrarpostulados.telefono, telefono);
-             i.putExtra(mostrarpostulados.mail, mail);
-             i.putExtra(mostrarpostulados.padss,padss);
-             startActivity(i);
+                     jsonObject = jsonArrayDatosvotantes.getJSONObject(i).getJSONObject("value");
+
+                    if (dui.equalsIgnoreCase(jsonObject.getString("dui"))){
+
+                        if (pass.equalsIgnoreCase(jsonObject.getString("pass"))){
+                            i = jsonArrayDatosvotantes.length()+1;
+                            String nombre = jsonObject.getString("nombre");
+                            String duii = jsonObject.getString("dui");
+                            String telefono = jsonObject.getString("telefono");
+                            String mail = jsonObject.getString("correo");
+                            String padss = jsonObject.getString("pass");
+
+                            mensajes("Bienvenido " + nombre);
+                            Intent ik = new Intent(MainActivity.this, mostrarpostulados.class);
+                            ik.putExtra(mostrarpostulados.nombre, nombre);
+                            ik.putExtra(mostrarpostulados.duii,duii);
+                            ik.putExtra(mostrarpostulados.telefono, telefono);
+                            ik.putExtra(mostrarpostulados.mail, mail);
+                            ik.putExtra(mostrarpostulados.padss,padss);
+                            startActivity(ik);
+                        }
+                     }
+                 }}
          }
+
      }catch (Exception e){
-         mensajes("no se encontro el usuario");
+         mensajes(e.getMessage());
      }
     }
 

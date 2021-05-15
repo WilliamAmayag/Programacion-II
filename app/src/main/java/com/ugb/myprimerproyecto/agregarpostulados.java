@@ -87,25 +87,23 @@ public class agregarpostulados extends AppCompatActivity {
             temp = findViewById(R.id.txtotro);
             String otro = temp.getText().toString();
 
-            JSONObject datospelis = new JSONObject();
+            JSONObject datoss = new JSONObject();
             if(accion.equals("modificar") && idpostulado.length()>0 && rev.length()>0 ){
-                datospelis.put("_id",idpostulado);
-                datospelis.put("_rev",rev);
+                datoss.put("_id",idpostulado);
+                datoss.put("_rev",rev);
             }
 
-
-
-            datospelis.put("nombre",nombre);
-            datospelis.put("dui",dui);
-            datospelis.put("propuesta",propuesta);
-            datospelis.put("otro",otro);
-            datospelis.put("urlfoto",urldefoto);
-            datospelis.put("urltriler",urldevideo);
+            datoss.put("nombre",nombre);
+            datoss.put("dui",dui);
+            datoss.put("propuesta",propuesta);
+            datoss.put("otro",otro);
+            datoss.put("urlfoto",urldefoto);
+            datoss.put("urltriler",urldevideo);
 
             di = new detectarInternet(getApplicationContext());
             if (di.hayConexionInternet()) {
                 enviarDatos guardarpelis = new enviarDatos(getApplicationContext());
-                String resp = guardarpelis.execute(datospelis.toString()).get();
+                String resp = guardarpelis.execute(datoss.toString()).get();
             }
 
             mensajes("Registro guardado con exito.");

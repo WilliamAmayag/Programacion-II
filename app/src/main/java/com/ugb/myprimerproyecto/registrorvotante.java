@@ -20,6 +20,7 @@ public class registrorvotante extends AppCompatActivity {
     String accion = "nuevo";
     Button btnagregar;
     DB miconexion;
+    detectarInternet di;
     TextView temp;
 
     @Override
@@ -61,6 +62,20 @@ public class registrorvotante extends AppCompatActivity {
 
             String[] datos = {nombre, dui, telefono, correo, pass};
             miconexion.agregar_usuario(accion, datos);
+
+
+            JSONObject datosss = new JSONObject();
+            datosss.put("_id",dui);
+            datosss.put("nombre",nombre);
+            datosss.put("dui",dui);
+            datosss.put("telefono",telefono);
+            datosss.put("correo",correo);
+            datosss.put("pass",pass);
+            di = new detectarInternet(getApplicationContext());
+            if (di.hayConexionInternet()) {
+                enviarusuarios guardarpelis = new enviarusuarios(getApplicationContext());
+                String resp = guardarpelis.execute(datosss.toString()).get();
+            }
 
             mensajes("Registro guardado con exito.");
             regresarmainactivity();
