@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
          jsonObjectDatosvotantes=new JSONObject(resp);
          jsonArrayDatosvotantes = jsonObjectDatosvotantes.getJSONArray("rows");
 
+
          JSONObject jsonObject;
          if(di.hayConexionInternet()) {
              if(jsonArrayDatosvotantes.length()>0) {
