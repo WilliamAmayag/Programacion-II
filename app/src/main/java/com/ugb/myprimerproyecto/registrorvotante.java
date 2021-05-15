@@ -73,7 +73,7 @@ public class registrorvotante extends AppCompatActivity {
             datosss.put("pass",pass);
             di = new detectarInternet(getApplicationContext());
             if (di.hayConexionInternet()) {
-                enviarusuarios guardarpelis = new enviarusuarios(getApplicationContext());
+            enviarusuarios guardarpelis = new enviarusuarios(getApplicationContext());
                 String resp = guardarpelis.execute(datosss.toString()).get();
             }
 

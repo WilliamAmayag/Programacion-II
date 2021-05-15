@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
          JSONObject jsonObject;
          if(di.hayConexionInternet()) {
              if(jsonArrayDatosvotantes.length()>0) {
+                 mensajes("Buscando");
                  for (int i = 0; i < jsonArrayDatosvotantes.length(); i++) {
 
                      jsonObject = jsonArrayDatosvotantes.getJSONObject(i).getJSONObject("value");
@@ -101,6 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void mensajes(String msg){
-        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
     }
 }
