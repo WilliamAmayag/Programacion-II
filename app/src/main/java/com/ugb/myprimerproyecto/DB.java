@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class DB extends SQLiteOpenHelper {
     static String nombre_bd = "DB_usuario";
-    static String tblus = "CREATE TABLE tblusuario(idusuario integer, nombre text, dui text, telefono text, mail text, pass text)";
+    static String tblus = "CREATE TABLE tblusuario(idusuario integer primary key, nombre text, dui text, telefono text, mail text, pass text)";
     public DB(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, nombre_bd, factory, version);
     }

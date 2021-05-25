@@ -102,8 +102,7 @@ public class MainActivity extends AppCompatActivity implements BiometricCallback
 
                             mensajes("Bienvenido " + nombre);
 
-                            String[] datos = {duii,nombre, duii, telefono, mail, padss};
-                            miconexion.agregar_usuario("nuevo", datos);
+
 
                             Bundle parametros = new Bundle();
                             parametros.putString("nombre", nombre);
@@ -114,13 +113,19 @@ public class MainActivity extends AppCompatActivity implements BiometricCallback
                             Intent lanzar = new Intent(getApplicationContext(), mostrarpostulados.class);
                             lanzar.putExtras(parametros);
                             startActivity(lanzar);
+
+                            try { String[] datos = {duii,nombre, duii, telefono, mail, padss};
+                                miconexion.agregar_usuario("nuevo", datos);
+
+                            }catch (Exception e){}
+
                         }
                      }
                  }}
          }
 
      }catch (Exception e){
-         mensajes(e.getMessage());
+      mensajes(e.getMessage());
      }
     }
 
