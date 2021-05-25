@@ -1,6 +1,7 @@
 package com.ugb.myprimerproyecto;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -23,15 +24,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class mostrarpostulados extends AppCompatActivity {
-    public static  final String nombre="nombre";
-    public static  final String duii="duii";
-    public static  final String telefono="telefono";
-    public static  final String mail="mail";
-    public static  final String padss="padss";
 
-    TextView nombrel, duil, telefotol,maill,padssl;
-
-
+    TextView nombrel, duil;
     FloatingActionButton btnadd;
     DB miconexion;
     ListView ltspostulados;
@@ -42,7 +36,7 @@ public class mostrarpostulados extends AppCompatActivity {
     JSONArray jsonArrayDatospostulados;
     JSONObject jsonObjectDatospostulados;
     utilidades u;
-    String idlocal;
+    String lognombre,logdui,logtelefono,logmail,logpadss;
     detectarInternet di;
     int position = 0;
 
@@ -54,16 +48,17 @@ public class mostrarpostulados extends AppCompatActivity {
 
         nombrel = findViewById(R.id.nombre);
         duil = findViewById(R.id.duii);
-     //   telefotol = findViewById(R.id.telefono);
-       // maill = findViewById(R.id.mail);
-      //  padssl = findViewById(R.id.padss);
 
-        nombrel.setText(getIntent().getStringExtra("nombre"));
-        duil.setText(getIntent().getStringExtra("duii"));
-       // telefotol.setText(getIntent().getStringExtra("telefono"));
-    //    maill.setText(getIntent().getStringExtra("mail"));
-     //   padssl.setText(getIntent().getStringExtra("padss"));
+        Bundle recibirparametros = getIntent().getExtras();
+        lognombre = recibirparametros.getString("nombre");
+        logdui = recibirparametros.getString("duii");
+        logtelefono = recibirparametros.getString("telefono");
+        logmail = recibirparametros.getString("mail");
+        logpadss = recibirparametros.getString("padss");
 
+
+        nombrel.setText(lognombre);
+        duil.setText(logdui);
 
         di = new detectarInternet(getApplicationContext());
         btnadd = findViewById(R.id.btnagregar);
@@ -78,9 +73,15 @@ public class mostrarpostulados extends AppCompatActivity {
     private void Agregar(String accion) {
         Bundle parametros = new Bundle();
         parametros.putString("accion", accion);
+        parametros.putString("nombre", lognombre);
+        parametros.putString("duii", logdui);
+        parametros.putString("telefono", logtelefono);
+        parametros.putString("mail", logmail);
+        parametros.putString("padss", logpadss);
         Intent i = new Intent(getApplicationContext(), agregarpostulados.class);
         i.putExtras(parametros);
         startActivity(i);
+
     }
 
     private void obtenerDatos() {
@@ -165,18 +166,110 @@ public class mostrarpostulados extends AppCompatActivity {
                     Agregar("nuevo");
                     break;
                 case R.id.mxnModificar:
-                  //  Modificar ("modificar");
+                   Modificar ("modificar");
                     break;
                 case R.id.mxnEliminar:
-                  //  Eliminar();
+                    Eliminar();
                     break;
                 case R.id.mxnVotar:
-                 //   ver("datos");
+                  votar("votar");
                     break;
             }
         }catch (Exception ex){
             mensajes(ex.getMessage());
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void Eliminar(){
+        try {
+            AlertDialog.Builder confirmacion = new AlertDialog.Builder(mostrarpostulados.this);
+            confirmacion.setTitle("Esta seguro de eliminar?");
+
+                jsonObjectDatospostulados = jsonArrayDatospostulados.getJSONObject(position).getJSONObject("value");
+                confirmacion.setMessage(jsonObjectDatospostulados.getString("nombre"));
+
+            confirmacion.setPositiveButton("Si", (dialog, which) -> {
+
+                try {
+                    if(di.hayConexionInternet()){
+                        ConexionconServer objElimina = new ConexionconServer();
+                        String resp =  objElimina.execute(u.urlagregarpostulados +
+                                jsonObjectDatospostulados.getString("_id")+ "?rev="+
+                                jsonObjectDatospostulados.getString("_rev"), "DELETE"
+                        ).get();
+
+                        JSONObject jsonRespEliminar = new JSONObject(resp);
+                        if(jsonRespEliminar.getBoolean("ok")){
+                            jsonArrayDatospostulados.remove(position);
+                            mostrarDatos();
+                        }
+                    }
+
+                    obtenerDatos();
+                    mensajes("Registro eliminado");
+                    dialog.dismiss();
+                }catch (Exception e){
+                }
+            });
+            confirmacion.setNegativeButton("No", (dialog, which) -> {
+                mensajes("Eliminacion detendia");
+                dialog.dismiss();
+            });
+            confirmacion.create().show();
+        } catch (Exception ex){
+            mensajes(ex.getMessage());
+        }
+    }
+
+
+    private void Modificar(String accion){
+        Bundle parametros = new Bundle();
+        parametros.putString("accion", accion);
+        parametros.putString("nombre", lognombre);
+        parametros.putString("duii", logdui);
+        parametros.putString("telefono", logtelefono);
+        parametros.putString("mail", logmail);
+        parametros.putString("padss", logpadss);
+        jsonObjectDatospostulados = new JSONObject();
+        JSONObject jsonValueObject = new JSONObject();
+        if(di.hayConexionInternet())
+        {
+            try {
+                if(jsonArrayDatospostulados.length()>0){
+                    parametros.putString("datos", jsonArrayDatospostulados.getJSONObject(position).toString() );
+                }
+            }catch (Exception e){
+                mensajes(e.getMessage());
+            }
+        }
+        Intent i = new Intent(getApplicationContext(), agregarpostulados.class);
+        i.putExtras(parametros);
+        startActivity(i);
+    }
+
+    private void votar(String accion){
+        Bundle parametros = new Bundle();
+        parametros.putString("accion", accion);
+        parametros.putString("nombre", lognombre);
+        parametros.putString("duii", logdui);
+        parametros.putString("telefono", logtelefono);
+        parametros.putString("mail", logmail);
+        parametros.putString("padss", logpadss);
+        jsonObjectDatospostulados = new JSONObject();
+        JSONObject jsonValueObject = new JSONObject();
+        if(di.hayConexionInternet())
+        {
+            try {
+                if(jsonArrayDatospostulados.length()>0){
+                    parametros.putString("datos", jsonArrayDatospostulados.getJSONObject(position).toString() );
+                }
+            }catch (Exception e){
+                mensajes(e.getMessage());
+            }
+        }
+        Intent i = new Intent(getApplicationContext(), votar.class);
+        i.putExtras(parametros);
+        startActivity(i);
     }
 }

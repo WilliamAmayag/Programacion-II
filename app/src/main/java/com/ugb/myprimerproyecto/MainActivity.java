@@ -84,13 +84,27 @@ public class MainActivity extends AppCompatActivity {
                             String padss = jsonObject.getString("pass");
 
                             mensajes("Bienvenido " + nombre);
-                            Intent ik = new Intent(MainActivity.this, mostrarpostulados.class);
+
+                        /*    Intent ik = new Intent(MainActivity.this, mostrarpostulados.class);
                             ik.putExtra(mostrarpostulados.nombre, nombre);
                             ik.putExtra(mostrarpostulados.duii,duii);
                             ik.putExtra(mostrarpostulados.telefono, telefono);
                             ik.putExtra(mostrarpostulados.mail, mail);
                             ik.putExtra(mostrarpostulados.padss,padss);
+
                             startActivity(ik);
+
+                         */
+
+                            Bundle parametros = new Bundle();
+                            parametros.putString("nombre", nombre);
+                            parametros.putString("duii", duii);
+                            parametros.putString("telefono", telefono);
+                            parametros.putString("mail", mail);
+                            parametros.putString("padss", padss);
+                            Intent lanzar = new Intent(getApplicationContext(), mostrarpostulados.class);
+                            lanzar.putExtras(parametros);
+                            startActivity(lanzar);
                         }
                      }
                  }}

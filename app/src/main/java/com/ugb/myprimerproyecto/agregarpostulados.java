@@ -34,13 +34,16 @@ public class agregarpostulados extends AppCompatActivity {
     FloatingActionButton btnregresar;
     ImageView imgfoto;
     VideoView vdidep;
-    String urldefoto="", urldevideo="",idpostulado, accion = "nuevo", rev;
+    String urldefoto="", urldevideo="",idpostulado, accion = "nuevo", rev,_id;
     Button btnagregar, btncargarvideo;
     TextView temp;
+    String lognombre,logdui,logtelefono,logmail,logpadss;
     detectarInternet di;
     private static final int RPQ= 100;
     private static final int RIG= 101;
     private static final int RVD= 102;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +72,11 @@ public class agregarpostulados extends AppCompatActivity {
         });
 
         permisos();
-      //  mostrardatos();
+       mostrardatos();
         controles();
+
+
+
     }
 
     private void agregar() {
@@ -89,9 +95,12 @@ public class agregarpostulados extends AppCompatActivity {
 
             JSONObject datoss = new JSONObject();
             if(accion.equals("modificar") && idpostulado.length()>0 && rev.length()>0 ){
-                datoss.put("_id",idpostulado);
+                datoss.put("_id",_id);
                 datoss.put("_rev",rev);
+            }else if (accion.equals("nuevo")){
+                datoss.put("_id",dui);
             }
+
 
             datoss.put("nombre",nombre);
             datoss.put("dui",dui);
@@ -112,6 +121,52 @@ public class agregarpostulados extends AppCompatActivity {
             mensajes(w.getMessage());
         }
     }
+
+
+    private void mostrardatos() {
+        try {
+            Bundle recibirparametros = getIntent().getExtras();
+            accion = recibirparametros.getString("accion");
+
+            lognombre = recibirparametros.getString("nombre");
+            logdui = recibirparametros.getString("duii");
+            logtelefono = recibirparametros.getString("telefono");
+            logmail = recibirparametros.getString("mail");
+            logpadss = recibirparametros.getString("padss");
+
+            if(accion.equals("modificar")){
+                JSONObject datos = new JSONObject(recibirparametros.getString("datos")).getJSONObject("value");
+                idpostulado = datos.getString("_id");
+                _id = datos.getString("_id");
+
+                rev = datos.getString("_rev");
+
+                temp = findViewById(R.id.txtnombre);
+                temp.setText(datos.getString("nombre"));
+
+                temp = findViewById(R.id.txtdui);
+                temp.setText(datos.getString("dui"));
+
+                temp = findViewById(R.id.txtpropuesta);
+                temp.setText(datos.getString("propuesta"));
+
+                temp = findViewById(R.id.txtotro);
+                temp.setText(datos.getString("otro"));
+
+                urldefoto =  datos.getString("urlfoto");
+                urldevideo =  datos.getString("urltriler");
+
+
+                imgfoto.setImageURI(Uri.parse(urldefoto));
+                vdidep.setVideoURI(Uri.parse(urldevideo));
+
+            }
+        }catch (Exception ex){
+            mensajes(ex.getMessage());
+
+        }
+    }
+
 
     private void permisos() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
@@ -168,8 +223,16 @@ public class agregarpostulados extends AppCompatActivity {
     }
 
     private void regresarmainactivity() {
-        Intent i = new Intent(getApplicationContext(),mostrarpostulados.class);
-        startActivity(i);
+        Bundle parametros = new Bundle();
+        parametros.putString("nombre", lognombre);
+        parametros.putString("duii", logdui);
+        parametros.putString("telefono", logtelefono);
+        parametros.putString("mail", logmail);
+        parametros.putString("padss", logpadss);
+        Intent lanzar = new Intent(getApplicationContext(), mostrarpostulados.class);
+        lanzar.putExtras(parametros);
+        startActivity(lanzar);
+
     }
 
     private void controles(){
