@@ -60,7 +60,7 @@ public class registrorvotante extends AppCompatActivity {
             temp = findViewById(R.id.txtpass);
             String pass = temp.getText().toString();
 
-            String[] datos = {nombre, dui, telefono, correo, pass};
+            String[] datos = {dui,nombre, dui, telefono, correo, pass};
             miconexion.agregar_usuario(accion, datos);
 
 

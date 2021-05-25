@@ -15,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.an.biometric.BiometricCallback;
+import com.an.biometric.BiometricManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -22,7 +24,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BiometricCallback {
 
     Button login, registro;
     TextView temp;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     JSONObject jsonObjectDatosvotantes;
     Cursor datosusuariocursor = null;
     detectarInternet di;
+    String dui,pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +45,36 @@ public class MainActivity extends AppCompatActivity {
         registro = findViewById(R.id.btnregistrar);
 
         login.setOnClickListener(v->{
-            logi();
+            logilocal();
         });
 
         registro.setOnClickListener(v->{
            Intent i = new Intent(getApplicationContext(), registrorvotante.class);
            startActivity(i);
         });
+
+        new BiometricManager.BiometricBuilder(MainActivity.this)
+                .setTitle("VotoFacil")
+                .setSubtitle("Identificate")
+                .setDescription("Por favor coloca tu huella en el sensor")
+                .setNegativeButtonText("Cancelar")
+                .build()
+                .authenticate(MainActivity.this);
+    }
+
+    private void logilocal() {
+        temp = findViewById(R.id.txtuss);
+        dui = temp.getText().toString();
+
+        temp = findViewById(R.id.txtpass);
+        pass = temp.getText().toString();
+        logi();
+
+
     }
 
     private void logi() {
      try {
-         temp = findViewById(R.id.txtuss);
-         String dui = temp.getText().toString();
-
-         temp = findViewById(R.id.txtpass);
-         String pass = temp.getText().toString();
 
          ConexionconServer conexionconServer = new ConexionconServer();
          String resp = conexionconServer.execute(u.urlobtenerdatosvotantes, "GET").get();
@@ -85,16 +102,8 @@ public class MainActivity extends AppCompatActivity {
 
                             mensajes("Bienvenido " + nombre);
 
-                        /*    Intent ik = new Intent(MainActivity.this, mostrarpostulados.class);
-                            ik.putExtra(mostrarpostulados.nombre, nombre);
-                            ik.putExtra(mostrarpostulados.duii,duii);
-                            ik.putExtra(mostrarpostulados.telefono, telefono);
-                            ik.putExtra(mostrarpostulados.mail, mail);
-                            ik.putExtra(mostrarpostulados.padss,padss);
-
-                            startActivity(ik);
-
-                         */
+                            String[] datos = {duii,nombre, duii, telefono, mail, padss};
+                            miconexion.agregar_usuario("nuevo", datos);
 
                             Bundle parametros = new Bundle();
                             parametros.putString("nombre", nombre);
@@ -118,5 +127,69 @@ public class MainActivity extends AppCompatActivity {
 
     private void mensajes(String msg){
         Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSdkVersionNotSupported() {
+
+    }
+
+    @Override
+    public void onBiometricAuthenticationNotSupported() {
+
+    }
+
+    @Override
+    public void onBiometricAuthenticationNotAvailable() {
+
+    }
+
+    @Override
+    public void onBiometricAuthenticationPermissionNotGranted() {
+
+    }
+
+    @Override
+    public void onBiometricAuthenticationInternalError(String error) {
+
+    }
+
+    @Override
+    public void onAuthenticationFailed() {
+
+    }
+
+    @Override
+    public void onAuthenticationCancelled() {
+
+    }
+
+    @Override
+    public void onAuthenticationSuccessful() {
+
+
+        try {
+            miconexion = new DB(getApplicationContext(), "", null, 1);
+            datosusuariocursor = miconexion.consultar_usuario("consultar");
+
+            if( datosusuariocursor.moveToFirst() ){
+              dui=   datosusuariocursor.getString(2);
+              pass=   datosusuariocursor.getString(5);
+                logi();
+            }
+        }catch (Exception e){
+            mensajes(e.getMessage());
+        }
+
+    }
+
+    @Override
+    public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
+
+    }
+
+    @Override
+    public void onAuthenticationError(int errorCode, CharSequence errString) {
+
     }
 }
