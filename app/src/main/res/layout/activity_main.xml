@@ -8,13 +8,16 @@
 
     <EditText
         android:id="@+id/txtuss"
+        style="@android:style/Widget.DeviceDefault.Light.AutoCompleteTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView8"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="15dp"
-        android:hint="DUI" />
+        android:hint="DUI"
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/txtpass"
@@ -25,6 +28,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:password="true"
         android:hint="Contraseña" />
 
 
@@ -34,20 +38,35 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/txtpass"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="15dp"
-        android:text="Iniciar" />
+        android:text="Iniciar"
+        app:backgroundTint="@color/black" />
 
     <Button
         android:id="@+id/btnregistrar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btniniciar"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="15dp"
-        android:text="Registro" />
+        android:text="Registro"
+        app:backgroundTint="@color/black" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="191dp"
+        android:layout_height="210dp"
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="35dp"
+        app:srcCompat="@drawable/iconfinder_lock_511942" />
+
 
 </RelativeLayout>

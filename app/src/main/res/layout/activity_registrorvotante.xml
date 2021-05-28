@@ -35,6 +35,7 @@
                 android:layout_below="@id/txtnombre"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
+                android:inputType="number"
                 android:hint="DUI" />
 
             <EditText
@@ -44,6 +45,7 @@
                 android:layout_below="@id/txtdui"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
+                android:inputType="phone"
                 android:hint="Telefono" />
 
 
@@ -54,6 +56,7 @@
                 android:layout_below="@id/txttelefono"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
+                android:inputType="phone"
                 android:hint="Correo" />
 
             <EditText
@@ -63,6 +66,7 @@
                 android:layout_below="@id/txtcorreo"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
+                android:password="true"
                 android:hint="Contraseña" />
 
 
