@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPrimerProyecto"
         android:usesCleartextTraffic="true">
-        <activity android:name=".votar"></activity>
+        <activity android:name=".Chat"></activity>
+        <activity android:name=".votar" />
         <activity android:name=".agregarpostulados" />
         <activity android:name=".mostrarpostulados" />
         <activity android:name=".registrorvotante" />

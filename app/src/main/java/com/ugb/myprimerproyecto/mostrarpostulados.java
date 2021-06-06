@@ -38,6 +38,7 @@ public class mostrarpostulados extends AppCompatActivity {
     utilidades u;
     String lognombre,logdui,logtelefono,logmail,logpadss;
     detectarInternet di;
+    FloatingActionButton btnChat;
     int position = 0;
 
 
@@ -68,6 +69,13 @@ public class mostrarpostulados extends AppCompatActivity {
 
         obtenerDatos();
        // Buscar();
+
+        btnChat = findViewById(R.id.btnChat);
+        btnChat.setOnClickListener(v -> {
+            Intent chat = new Intent(getApplicationContext(), Chat.class);
+            chat.putExtra("nombre", lognombre);
+            startActivity(chat);
+        });
     }
 
     private void Agregar(String accion) {
