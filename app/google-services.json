@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "676351821274",
+    "project_id": "votacion-de01b",
+    "storage_bucket": "votacion-de01b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676351821274:android:a709388b1f749189b86ce3",
+        "android_client_info": {
+          "package_name": "com.ugb.myprimerproyecto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "676351821274-tts9vdohrl877fval5ok072c5m31327g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADKE1BRXQ4zDC1LC5G9gg37YvM1pGruSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "676351821274-tts9vdohrl877fval5ok072c5m31327g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
