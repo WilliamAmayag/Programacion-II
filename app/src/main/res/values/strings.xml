@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Voto Facil</string>
 
+    <string-array name="permiso">
+        <item>Votante</item>
+        <item>Administador</item>
+    </string-array>
+
 </resources>

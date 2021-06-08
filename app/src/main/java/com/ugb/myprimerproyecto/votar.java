@@ -23,7 +23,7 @@ public class votar extends AppCompatActivity {
     VideoView vdide;
     String urldefoto, urldevideo,id, accion = "votar", rev, duipostulado;
     TextView temp;
-    String lognombre,logdui,logtelefono,logmail,logpadss;
+    String lognombre,logdui,logtelefono,logmail,logpadss, permiso;
     detectarInternet di;
 
     @Override
@@ -78,7 +78,7 @@ public class votar extends AppCompatActivity {
                 String resp = guardarpelis.execute(datoss.toString()).get();
             }
 
-            mensajes("Registro guardado con exito.");
+            mensajes("Voto enviado.");
             regresarmainactivity();
         }catch (Exception w){
             mensajes(w.getMessage());
@@ -100,6 +100,7 @@ public class votar extends AppCompatActivity {
             logtelefono = recibirparametros.getString("telefono");
             logmail = recibirparametros.getString("mail");
             logpadss = recibirparametros.getString("padss");
+            permiso = recibirparametros.getString("permiso");
             if(accion.equals("votar")){
                 JSONObject datos = new JSONObject(recibirparametros.getString("datos")).getJSONObject("value");
                 id = datos.getString("_id");
@@ -136,9 +137,12 @@ public class votar extends AppCompatActivity {
         parametros.putString("telefono", logtelefono);
         parametros.putString("mail", logmail);
         parametros.putString("padss", logpadss);
+        parametros.putString("permiso", permiso);
         Intent lanzar = new Intent(getApplicationContext(), mostrarpostulados.class);
         lanzar.putExtras(parametros);
         startActivity(lanzar);
+
+        finish();
     }
 
     private void mensajes(String msg){

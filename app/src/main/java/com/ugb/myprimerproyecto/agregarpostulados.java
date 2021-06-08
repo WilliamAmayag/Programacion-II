@@ -37,7 +37,7 @@ public class agregarpostulados extends AppCompatActivity {
     String urldefoto="", urldevideo="",idpostulado, accion = "nuevo", rev,_id;
     Button btnagregar, btncargarvideo;
     TextView temp;
-    String lognombre,logdui,logtelefono,logmail,logpadss;
+    String lognombre,logdui,logtelefono,logmail,logpadss, permiso;
     detectarInternet di;
     private static final int RPQ= 100;
     private static final int RIG= 101;
@@ -133,6 +133,7 @@ public class agregarpostulados extends AppCompatActivity {
             logtelefono = recibirparametros.getString("telefono");
             logmail = recibirparametros.getString("mail");
             logpadss = recibirparametros.getString("padss");
+            permiso = recibirparametros.getString("permiso");
 
             if(accion.equals("modificar")){
                 JSONObject datos = new JSONObject(recibirparametros.getString("datos")).getJSONObject("value");
@@ -229,9 +230,12 @@ public class agregarpostulados extends AppCompatActivity {
         parametros.putString("telefono", logtelefono);
         parametros.putString("mail", logmail);
         parametros.putString("padss", logpadss);
+        parametros.putString("permiso", permiso);
         Intent lanzar = new Intent(getApplicationContext(), mostrarpostulados.class);
         lanzar.putExtras(parametros);
         startActivity(lanzar);
+
+        finish();
 
     }
 

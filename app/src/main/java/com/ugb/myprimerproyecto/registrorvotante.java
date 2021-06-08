@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -22,6 +23,7 @@ public class registrorvotante extends AppCompatActivity {
     DB miconexion;
     detectarInternet di;
     TextView temp;
+    Spinner permiso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class registrorvotante extends AppCompatActivity {
         miconexion = new DB(getApplicationContext(),"",null,1);
         btnregresar = findViewById(R.id.btnregresar);
         btnagregar = findViewById(R.id.btnguardar);
+        permiso = findViewById(R.id.permiso);
 
         btnregresar.setOnClickListener(v -> {
             regresarmainactivity();
@@ -60,7 +63,18 @@ public class registrorvotante extends AppCompatActivity {
             temp = findViewById(R.id.txtpass);
             String pass = temp.getText().toString();
 
-            String[] datos = {dui,nombre, dui, telefono, correo, pass};
+            int permisos;
+            permisos = permiso.getSelectedItemPosition();
+            String a = "";
+            if (permisos == 0){
+              a = "votante";
+            }else {
+                a = "administrador";
+            }
+
+
+
+            String[] datos = {dui,nombre, dui, telefono, correo, pass, a};
             miconexion.agregar_usuario(accion, datos);
 
 
@@ -71,6 +85,7 @@ public class registrorvotante extends AppCompatActivity {
             datosss.put("telefono",telefono);
             datosss.put("correo",correo);
             datosss.put("pass",pass);
+            datosss.put("permiso",a);
             di = new detectarInternet(getApplicationContext());
             if (di.hayConexionInternet()) {
             enviarusuarios guardarpelis = new enviarusuarios(getApplicationContext());
@@ -79,6 +94,8 @@ public class registrorvotante extends AppCompatActivity {
 
             mensajes("Registro guardado con exito.");
             regresarmainactivity();
+
+
         }catch (Exception w){
             mensajes(w.getMessage());
         }

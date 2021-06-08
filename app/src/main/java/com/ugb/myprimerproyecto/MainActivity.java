@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements BiometricCallback
                             String telefono = jsonObject.getString("telefono");
                             String mail = jsonObject.getString("correo");
                             String padss = jsonObject.getString("pass");
+                            String permiso = jsonObject.getString("permiso");
 
                             mensajes("Bienvenido " + nombre);
 
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements BiometricCallback
                             parametros.putString("telefono", telefono);
                             parametros.putString("mail", mail);
                             parametros.putString("padss", padss);
+                            parametros.putString("permiso", permiso);
                             Intent lanzar = new Intent(getApplicationContext(), mostrarpostulados.class);
                             lanzar.putExtras(parametros);
                             startActivity(lanzar);

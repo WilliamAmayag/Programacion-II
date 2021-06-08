@@ -36,7 +36,7 @@ public class mostrarpostulados extends AppCompatActivity {
     JSONArray jsonArrayDatospostulados;
     JSONObject jsonObjectDatospostulados;
     utilidades u;
-    String lognombre,logdui,logtelefono,logmail,logpadss;
+    String lognombre,logdui,logtelefono,logmail,logpadss, permiso;
     detectarInternet di;
     FloatingActionButton btnChat;
     int position = 0;
@@ -56,6 +56,7 @@ public class mostrarpostulados extends AppCompatActivity {
         logtelefono = recibirparametros.getString("telefono");
         logmail = recibirparametros.getString("mail");
         logpadss = recibirparametros.getString("padss");
+        permiso = recibirparametros.getString("permiso");
 
 
         nombrel.setText(lognombre);
@@ -64,7 +65,13 @@ public class mostrarpostulados extends AppCompatActivity {
         di = new detectarInternet(getApplicationContext());
         btnadd = findViewById(R.id.btnagregar);
         btnadd.setOnClickListener(v->{
-            Agregar("nuevo");
+
+            if (permiso.equalsIgnoreCase("administrador")){
+                Agregar("nuevo");
+            }else {
+                mensajes("No tienes privilegios para entrar aqui");
+            }
+
         });
 
         obtenerDatos();
@@ -86,6 +93,7 @@ public class mostrarpostulados extends AppCompatActivity {
         parametros.putString("telefono", logtelefono);
         parametros.putString("mail", logmail);
         parametros.putString("padss", logpadss);
+        parametros.putString("permiso", permiso);
         Intent i = new Intent(getApplicationContext(), agregarpostulados.class);
         i.putExtras(parametros);
         startActivity(i);
@@ -169,20 +177,38 @@ public class mostrarpostulados extends AppCompatActivity {
 
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         try {
-            switch (item.getItemId()) {
-                case R.id.mxnAgregar:
-                    Agregar("nuevo");
-                    break;
-                case R.id.mxnModificar:
-                   Modificar ("modificar");
-                    break;
-                case R.id.mxnEliminar:
-                    Eliminar();
-                    break;
-                case R.id.mxnVotar:
-                  votar("votar");
-                    break;
+
+                switch (item.getItemId()) {
+                    case R.id.mxnAgregar:
+
+                        if (permiso.equalsIgnoreCase("administrador")){
+                            Agregar("nuevo");
+                        }else {
+                            mensajes("No tienes privilegios para entrar aqui");
+                        }
+                        break;
+                    case R.id.mxnModificar:
+                        if (permiso.equalsIgnoreCase("administrador")){
+                            Modificar ("modificar");
+                        }else {
+                            mensajes("No tienes privilegios para entrar aqui");
+                        }
+
+                        break;
+                    case R.id.mxnEliminar:
+                        if (permiso.equalsIgnoreCase("administrador")){
+                            Eliminar();
+                        }else {
+                            mensajes("No tienes privilegios para entrar aqui");
+                        }
+
+                        break;
+                    case R.id.mxnVotar:
+                        votar("votar");
+                        break;
+
             }
+
         }catch (Exception ex){
             mensajes(ex.getMessage());
         }
@@ -239,6 +265,7 @@ public class mostrarpostulados extends AppCompatActivity {
         parametros.putString("telefono", logtelefono);
         parametros.putString("mail", logmail);
         parametros.putString("padss", logpadss);
+        parametros.putString("permiso", permiso);
         jsonObjectDatospostulados = new JSONObject();
         JSONObject jsonValueObject = new JSONObject();
         if(di.hayConexionInternet())
@@ -264,6 +291,7 @@ public class mostrarpostulados extends AppCompatActivity {
         parametros.putString("telefono", logtelefono);
         parametros.putString("mail", logmail);
         parametros.putString("padss", logpadss);
+        parametros.putString("permiso", permiso);
         jsonObjectDatospostulados = new JSONObject();
         JSONObject jsonValueObject = new JSONObject();
         if(di.hayConexionInternet())
