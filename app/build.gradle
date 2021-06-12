@@ -4,13 +4,14 @@ plugins {
 
 apply plugin: 'com.google.gms.google-services'
 
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.ugb.myprimerproyecto"
-        minSdkVersion 19
+        minSdkVersion 20
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -40,7 +41,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation project(path:':biometric-auth')
-
+    implementation 'com.google.firebase:firebase-xmessaging'
     implementation platform('com.google.firebase:firebase-bom:28.1.0')
 
     implementation 'com.google.firebase:firebase-database'
