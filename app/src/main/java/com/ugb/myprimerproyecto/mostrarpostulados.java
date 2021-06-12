@@ -41,7 +41,7 @@ public class mostrarpostulados extends AppCompatActivity {
     FloatingActionButton btnChat;
     int position = 0;
 
-
+//comentario X factor
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
