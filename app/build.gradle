@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.ugb.myprimerproyecto"
-        minSdkVersion 20
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -41,7 +41,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation project(path:':biometric-auth')
-    implementation 'com.google.firebase:firebase-xmessaging'
+    implementation 'com.google.firebase:firebase-messaging'
     implementation platform('com.google.firebase:firebase-bom:28.1.0')
 
     implementation 'com.google.firebase:firebase-database'

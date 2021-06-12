@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,7 +43,7 @@ public class mostrarpostulados extends AppCompatActivity {
     FloatingActionButton btnChat;
     int position = 0;
 
-//comentario X factor
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class mostrarpostulados extends AppCompatActivity {
         });
 
         obtenerDatos();
-       // Buscar();
+        Buscar();
 
         btnChat = findViewById(R.id.btnChat);
         btnChat.setOnClickListener(v -> {
@@ -87,9 +89,7 @@ public class mostrarpostulados extends AppCompatActivity {
     }
 
 
-    //revisar por que tengo errores
-
-    private <TextWatcher> void buscarPostulados() {
+    private void Buscar() {
         TextView tempVal = findViewById(R.id.txtbuscar);
         tempVal.addTextChangedListener(new TextWatcher() {
             @Override
@@ -103,25 +103,29 @@ public class mostrarpostulados extends AppCompatActivity {
                 if (tempVal.getText().toString().length()<1){
                     postuladosArrayList.addAll(postuladosArrayListCopy);
                 } else{
-                    for (postulados PB : postuladosArrayList){
-                        String nombre = PB.getNombrepostulado();
-                        String duii = PB.getDuipostulado();
-                        String propuesta = PB.getPropuesta();
-
+                    for (postulados PB : postuladosArrayListCopy){
+                        String Postulado = PB.getNombrepostulado();
+                        String Propuesta = PB.getPropuesta();
+                        String Otros = PB.getOtros();
+                        String Dui = PB.getDuipostulado();
                         String buscando = tempVal.getText().toString().trim().toLowerCase();
-                        if(nombre.toLowerCase().contains(buscando) ||
-                                duii.toLowerCase().contains(buscando) ||
-                                propuesta.toLowerCase().contains(buscando) ||
-
-                                postuladosArrayList.add(PB));
+                        if(Postulado.toLowerCase().contains(buscando) ||
+                                Propuesta.toLowerCase().contains(buscando) ||
+                                Otros.toLowerCase().contains(buscando) ||
+                                Dui.toLowerCase().contains(buscando) ){
+                            postuladosArrayList.add(PB);
+                        }
                     }
                 }
+                adaptadorImagenes adaptadorImagenes = new adaptadorImagenes(getApplicationContext(), postuladosArrayList);
+                ltspostulados.setAdapter(adaptadorImagenes);
             }
-            adaptadorImagenes adaptadorImagenes = new adaptadorImagenes(getApplicationContext(), postuladosArrayList);
 
-        });
+            @Override
+            public void afterTextChanged(Editable s) {
 
-    }
+            }
+        });}
 
         private void Agregar(String accion) {
         Bundle parametros = new Bundle();
