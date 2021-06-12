@@ -41,6 +41,7 @@ public class mostrarpostulados extends AppCompatActivity {
     FloatingActionButton btnChat;
     int position = 0;
 
+//comentario X factor
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,44 @@ public class mostrarpostulados extends AppCompatActivity {
         });
     }
 
-    private void Agregar(String accion) {
+
+    //revisar por que tengo errores
+
+    private <TextWatcher> void buscarPostulados() {
+        TextView tempVal = findViewById(R.id.txtbuscar);
+        tempVal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                postuladosArrayList.clear();
+                if (tempVal.getText().toString().length()<1){
+                    postuladosArrayList.addAll(postuladosArrayListCopy);
+                } else{
+                    for (postulados PB : postuladosArrayList){
+                        String nombre = PB.getNombrepostulado();
+                        String duii = PB.getDuipostulado();
+                        String propuesta = PB.getPropuesta();
+
+                        String buscando = tempVal.getText().toString().trim().toLowerCase();
+                        if(nombre.toLowerCase().contains(buscando) ||
+                                duii.toLowerCase().contains(buscando) ||
+                                propuesta.toLowerCase().contains(buscando) ||
+
+                                postuladosArrayList.add(PB));
+                    }
+                }
+            }
+            adaptadorImagenes adaptadorImagenes = new adaptadorImagenes(getApplicationContext(), postuladosArrayList);
+
+        });
+
+    }
+
+        private void Agregar(String accion) {
         Bundle parametros = new Bundle();
         parametros.putString("accion", accion);
         parametros.putString("nombre", lognombre);
